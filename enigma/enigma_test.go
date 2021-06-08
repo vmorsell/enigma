@@ -1,7 +1,6 @@
 package enigma
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -10,27 +9,22 @@ import (
 func TestEncrypt(t *testing.T) {
 	tests := []struct {
 		name string
-		v    string
-		res  string
+		k    Key
+		res  Key
 		err  error
 	}{
 		{
-			name: "multiple characters",
-			v:    "ab",
-			err:  fmt.Errorf("must encrypt one character a time"),
-		},
-		{
 			name: "ok",
-			v:    "x",
-			res:  "X",
+			k:    X,
+			res:  X,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			e := New()
-			e.Plugboard.Patch("x", "y")
-			res, err := e.Encrypt(tt.v)
+			e.Plugboard.Patch(X, Y)
+			res, err := e.Encrypt(tt.k)
 			require.Equal(t, tt.err, err)
 			require.Equal(t, tt.res, res)
 		})

@@ -1,10 +1,5 @@
 package enigma
 
-import (
-	"fmt"
-	"strings"
-)
-
 type Enigma struct {
 	Plugboard *Plugboard
 }
@@ -16,22 +11,16 @@ func New() *Enigma {
 	}
 }
 
-// Encrypt encrypts a single character.
-func (e *Enigma) Encrypt(v string) (string, error) {
-	if len(v) != 1 {
-		return "", fmt.Errorf("must encrypt one character a time")
-	}
-
-	v = strings.ToUpper(v)
-
+// Encrypt encrypts a single .
+func (e *Enigma) Encrypt(k Key) (Key, error) {
 	if e.Plugboard != nil {
-		v = e.Plugboard.Handle(v)
+		k = e.Plugboard.Handle(k)
 	}
 
 	// todo(vm): add spindle
 
 	if e.Plugboard != nil {
-		v = e.Plugboard.Handle(v)
+		k = e.Plugboard.Handle(k)
 	}
-	return v, nil
+	return k, nil
 }

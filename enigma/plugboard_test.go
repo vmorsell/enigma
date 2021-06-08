@@ -11,25 +11,25 @@ func TestHandle(t *testing.T) {
 	tests := []struct {
 		name  string
 		patch *struct {
-			a string
-			b string
+			a Key
+			b Key
 		}
-		v   string
-		res string
+		v   Key
+		res Key
 	}{
 		{
 			name: "without patches",
-			v:    "x",
-			res:  "x",
+			v:    X,
+			res:  X,
 		},
 		{
 			name: "with patch",
 			patch: &struct {
-				a string
-				b string
-			}{"x", "y"},
-			v:   "x",
-			res: "y",
+				a Key
+				b Key
+			}{X, Y},
+			v:   X,
+			res: Y,
 		},
 	}
 
@@ -48,30 +48,30 @@ func TestHandle(t *testing.T) {
 func TestPatch(t *testing.T) {
 	tests := []struct {
 		name    string
-		patches map[string]string
-		a       string
-		b       string
+		patches map[Key]Key
+		a       Key
+		b       Key
 		err     error
 	}{
 		{
 			name:    "a already patched",
-			patches: map[string]string{"x": "a"},
-			a:       "x",
-			b:       "y",
-			err:     fmt.Errorf("x already patched to a"),
+			patches: map[Key]Key{X: A},
+			a:       X,
+			b:       Y,
+			err:     fmt.Errorf("X already patched to A"),
 		},
 		{
-			name:    "b already patched",
-			patches: map[string]string{"y": "a"},
-			a:       "x",
-			b:       "y",
-			err:     fmt.Errorf("y already patched to a"),
+			name:    "B already patched",
+			patches: map[Key]Key{Y: A},
+			a:       X,
+			b:       Y,
+			err:     fmt.Errorf("Y already patched to A"),
 		},
 		{
 			name:    "ok",
-			patches: make(map[string]string),
-			a:       "x",
-			b:       "y",
+			patches: make(map[Key]Key),
+			a:       X,
+			b:       Y,
 		},
 	}
 
