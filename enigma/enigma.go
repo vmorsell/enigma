@@ -2,12 +2,14 @@ package enigma
 
 type Enigma struct {
 	Plugboard *Plugboard
+	spindle   Spindle
 }
 
 // New returns an Enigma instance.
-func New() *Enigma {
+func New(spindle Spindle) *Enigma {
 	return &Enigma{
 		Plugboard: NewPlugboard(),
+		spindle:   spindle,
 	}
 }
 
@@ -17,7 +19,7 @@ func (e *Enigma) Encrypt(k Key) (Key, error) {
 		k = e.Plugboard.Handle(k)
 	}
 
-	// todo(vm): add spindle
+	k = e.spindle.Handle(k)
 
 	if e.Plugboard != nil {
 		k = e.Plugboard.Handle(k)
