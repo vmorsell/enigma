@@ -16,19 +16,28 @@ func TestSpindleHandle(t *testing.T) {
 	}{
 		{
 			name: "one rotor - one key",
-			rot:  []Rotor{NewRotor(map[Key]Key{A: B, Y: X}, A, Z)},
+			rot: []Rotor{NewRotor(rotorConfig{
+				mapping: map[Key]Key{
+					A: B,
+					Y: X,
+				},
+				notch: Z,
+			}, A)},
 			ref:  NewReflector(map[Key]Key{B: X}),
 			keys: []Key{A},
 			res:  []Key{Y},
 		},
 		{
 			name: "one rotor - multiple keys",
-			rot: []Rotor{NewRotor(map[Key]Key{
-				A: R,
-				J: B,
-				Z: O,
-				L: J,
-			}, A, Z)},
+			rot: []Rotor{NewRotor(rotorConfig{
+				mapping: map[Key]Key{
+					A: R,
+					J: B,
+					Z: O,
+					L: J,
+				},
+				notch: Z,
+			}, A)},
 			ref: NewReflector(map[Key]Key{
 				R: B,
 				P: K,
@@ -39,20 +48,26 @@ func TestSpindleHandle(t *testing.T) {
 		{
 			name: "two rotors - multiple keys",
 			rot: []Rotor{
-				NewRotor(map[Key]Key{
-					A: R,
-					V: U,
+				NewRotor(rotorConfig{
+					mapping: map[Key]Key{
+						A: R,
+						V: U,
 
-					Z: G,
-					S: O,
-				}, A, Z),
-				NewRotor(map[Key]Key{
-					R: T,
-					U: D,
+						Z: G,
+						S: O,
+					},
+					notch: Z,
+				}, A),
+				NewRotor(rotorConfig{
+					mapping: map[Key]Key{
+						R: T,
+						U: D,
 
-					H: N,
-					P: O,
-				}, A, Z),
+						H: N,
+						P: O,
+					},
+					notch: Z,
+				}, A),
 			},
 			ref: NewReflector(map[Key]Key{
 				T: D,
@@ -64,20 +79,26 @@ func TestSpindleHandle(t *testing.T) {
 		{
 			name: "two rotors - multiple keys - both rotors rotates after first key",
 			rot: []Rotor{
-				NewRotor(map[Key]Key{
-					A: T,
-					E: R,
+				NewRotor(rotorConfig{
+					mapping: map[Key]Key{
+						A: T,
+						E: R,
 
-					Z: L,
-					K: F,
-				}, A, A),
-				NewRotor(map[Key]Key{
-					T: Q,
-					R: G,
+						Z: L,
+						K: F,
+					},
+					notch: A,
+				}, A),
+				NewRotor(rotorConfig{
+					mapping: map[Key]Key{
+						T: Q,
+						R: G,
 
-					L: U,
-					F: S,
-				}, A, Z),
+						L: U,
+						F: S,
+					},
+					notch: Z,
+				}, A),
 			},
 			ref: NewReflector(map[Key]Key{
 				Q: G,

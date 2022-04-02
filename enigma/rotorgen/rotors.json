@@ -1,0 +1,27 @@
+[
+  {
+    "name": "I",
+    "mapping": "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
+    "notch": "Q"
+  },
+  {
+    "name": "II",
+    "mapping": "AJDKSIRUXBLHWTMCQGZNPYFVOE",
+    "notch": "E"
+  },
+  {
+    "name": "III",
+    "mapping": "BDFHJLCPRTXVZNYEIWGAKMUSQO",
+    "notch": "V"
+  },
+  {
+    "name": "IV",
+    "mapping": "ESOVPZJAYQUIRHXLNFTGKDCMWB",
+    "notch": "J"
+  },
+  {
+    "name": "V",
+    "mapping": "VZBRGITYUPSDNHLXAWMJQOFECK",
+    "notch": "Z"
+  }
+]

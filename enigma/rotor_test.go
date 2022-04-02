@@ -15,10 +15,13 @@ func TestReverseMap(t *testing.T) {
 }
 
 func TestForwardAndBackward(t *testing.T) {
-	forwardMap := map[Key]Key{
-		A: B,
+	conf := rotorConfig{
+		mapping: map[Key]Key{
+			A: B,
+		},
+		notch: Z,
 	}
-	r := NewRotor(forwardMap, A, Z)
+	r := NewRotor(conf, A)
 
 	t.Run("forward", func(t *testing.T) {
 
@@ -78,7 +81,7 @@ func TestForwardAndBackward(t *testing.T) {
 func TestStep(t *testing.T) {
 	pos := B
 	want := A
-	r := NewRotor(nil, pos, Z)
+	r := NewRotor(rotorConfig{}, pos)
 
 	r.Step()
 	require.Equal(t, r.Position(), want)

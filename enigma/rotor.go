@@ -15,13 +15,18 @@ type rotor struct {
 	notch       Key
 }
 
-func NewRotor(forwardMap map[Key]Key, position, notch Key) Rotor {
-	backwardMap := reverseMap(forwardMap)
+type rotorConfig struct {
+	mapping map[Key]Key
+	notch   Key
+}
+
+func NewRotor(config rotorConfig, position Key) Rotor {
+	backwardMap := reverseMap(config.mapping)
 	return &rotor{
-		forwardMap,
-		backwardMap,
-		position,
-		notch,
+		forwardMap:  config.mapping,
+		backwardMap: backwardMap,
+		notch:       config.notch,
+		position:    position,
 	}
 }
 
