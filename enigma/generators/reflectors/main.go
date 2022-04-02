@@ -5,12 +5,11 @@ package main
 import (
 	_ "embed"
 	"encoding/json"
-	"fmt"
 	"html/template"
 	"log"
 	"os"
 
-	"github.com/vmorsell/enigma/enigma"
+	"github.com/vmorsell/enigma/enigma/generators"
 )
 
 type JSONConfig struct {
@@ -34,28 +33,12 @@ func main() {
 	}
 
 	funcs := template.FuncMap{
-		"keyMap": keyMap,
+		"keyMap": generators.KeyMap,
 	}
 	t := template.Must(template.New("config").Funcs(funcs).Parse(tpl))
 	if err := t.Execute(f, reflectors); err != nil {
 		log.Fatalf("execute: %v", err)
 	}
-}
-
-var errTooFewKeys = func(mapping string) error { return fmt.Errorf("too few keys in mapping: %s", mapping) }
-
-func keyMap(keys string) (map[enigma.Key]enigma.Key, error) {
-	alphas := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-	if len(keys) != len(alphas) {
-		return nil, errTooFewKeys(keys)
-	}
-
-	out := make(map[enigma.Key]enigma.Key, len(alphas))
-	for i := 0; i < len(alphas); i++ {
-		out[enigma.Key(alphas[i])] = enigma.Key(keys[i])
-	}
-	return out, nil
 }
 
 const tpl = `package enigma

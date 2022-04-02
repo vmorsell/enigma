@@ -53,7 +53,7 @@ func (k Key) String() string {
 
 var errUnknownKey = func(s string) error { return fmt.Errorf("unknown key %s", s) }
 
-func stringToKeys(s string) ([]Key, error) {
+func StringToKeys(s string) ([]Key, error) {
 	out := make([]Key, 0, len(s))
 nextRune:
 	for _, r := range s {

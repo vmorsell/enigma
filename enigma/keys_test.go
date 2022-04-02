@@ -87,7 +87,7 @@ func TestStringToKeys(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			keys, err := stringToKeys(tt.s)
+			keys, err := StringToKeys(tt.s)
 			require.Equal(t, tt.err, err)
 			require.Equal(t, tt.k, keys)
 		})
