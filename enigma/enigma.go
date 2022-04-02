@@ -1,7 +1,5 @@
 package enigma
 
-//go:generate go run ./rotorgen/...
-
 type Enigma struct {
 	plugboard Plugboard
 	spindle   Spindle
