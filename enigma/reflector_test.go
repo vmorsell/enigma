@@ -7,10 +7,11 @@ import (
 )
 
 func TestReflect(t *testing.T) {
-	m := map[Key]Key{
-		A: B,
-	}
-	r := NewReflector(m)
+	r := NewReflector(reflectorConfig{
+		mapping: map[Key]Key{
+			A: B,
+		},
+	})
 
 	tests := []struct {
 		name string

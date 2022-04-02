@@ -8,9 +8,13 @@ type reflector struct {
 	mappings map[Key]Key
 }
 
-func NewReflector(mappings map[Key]Key) Reflector {
+type reflectorConfig struct {
+	mapping map[Key]Key
+}
+
+func NewReflector(config reflectorConfig) Reflector {
 	return reflector{
-		mappings,
+		config.mapping,
 	}
 }
 

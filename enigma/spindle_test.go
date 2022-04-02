@@ -23,7 +23,11 @@ func TestSpindleHandle(t *testing.T) {
 				},
 				notch: Z,
 			}, A)},
-			ref:  NewReflector(map[Key]Key{B: X}),
+			ref: NewReflector(reflectorConfig{
+				mapping: map[Key]Key{
+					B: X,
+				},
+			}),
 			keys: []Key{A},
 			res:  []Key{Y},
 		},
@@ -38,9 +42,11 @@ func TestSpindleHandle(t *testing.T) {
 				},
 				notch: Z,
 			}, A)},
-			ref: NewReflector(map[Key]Key{
-				R: B,
-				P: K,
+			ref: NewReflector(reflectorConfig{
+				mapping: map[Key]Key{
+					R: B,
+					P: K,
+				},
 			}),
 			keys: []Key{A, A},
 			res:  []Key{J, M},
@@ -69,9 +75,11 @@ func TestSpindleHandle(t *testing.T) {
 					notch: Z,
 				}, A),
 			},
-			ref: NewReflector(map[Key]Key{
-				T: D,
-				N: O,
+			ref: NewReflector(reflectorConfig{
+				mapping: map[Key]Key{
+					T: D,
+					N: O,
+				},
 			}),
 			keys: []Key{A, A},
 			res:  []Key{V, T},
@@ -100,9 +108,11 @@ func TestSpindleHandle(t *testing.T) {
 					notch: Z,
 				}, A),
 			},
-			ref: NewReflector(map[Key]Key{
-				Q: G,
-				V: T,
+			ref: NewReflector(reflectorConfig{
+				mapping: map[Key]Key{
+					Q: G,
+					V: T,
+				},
 			}),
 			keys: []Key{A, A},
 			res:  []Key{E, L},

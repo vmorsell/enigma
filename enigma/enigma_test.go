@@ -17,7 +17,11 @@ func TestEncrypt(t *testing.T) {
 		},
 		notch: Z,
 	}, A)
-	ref := NewReflector(map[Key]Key{C: D})
+	ref := NewReflector(reflectorConfig{
+		mapping: map[Key]Key{
+			C: D,
+		},
+	})
 
 	s := NewSpindle([]Rotor{rot}, ref)
 	p := NewPlugboard(map[Key]Key{A: B, F: E})
