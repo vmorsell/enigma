@@ -7,26 +7,16 @@ import (
 )
 
 func TestEncrypt(t *testing.T) {
-	tests := []struct {
-		name string
-		k    Key
-		res  Key
-		err  error
-	}{
-		{
-			name: "ok",
-			k:    X,
-			res:  X,
-		},
-	}
+	in := A
+	want := F
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			e := New()
-			e.Plugboard.Patch(X, Y)
-			res, err := e.Encrypt(tt.k)
-			require.Equal(t, tt.err, err)
-			require.Equal(t, tt.res, res)
-		})
-	}
+	rot := NewRotor(map[Key]Key{B: C, E: D})
+	ref := NewReflector(map[Key]Key{C: D})
+
+	s := NewSpindle([]Rotor{rot}, ref)
+	p := NewPlugboard(map[Key]Key{A: B, F: E})
+
+	e := New(p, s)
+	res := e.Encrypt(in)
+	require.Equal(t, want, res)
 }

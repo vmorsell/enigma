@@ -1,36 +1,33 @@
 package enigma
 
-import "fmt"
-
-type Plugboard struct {
-	Patches map[Key]Key
+type Plugboard interface {
+	Forward(k Key) Key
+	Backward(k Key) Key
 }
 
-func NewPlugboard() *Plugboard {
-	return &Plugboard{
-		Patches: make(map[Key]Key),
+type plugboard struct {
+	forwardMap  map[Key]Key
+	backwardMap map[Key]Key
+}
+
+func NewPlugboard(forwardMap map[Key]Key) Plugboard {
+	backwardMap := reverseMap(forwardMap)
+	return plugboard{
+		forwardMap,
+		backwardMap,
 	}
 }
 
-// Handle processes a single character input through the Plugboard.
-func (p *Plugboard) Handle(k Key) Key {
-	if x, ok := p.Patches[k]; ok {
-		return x
+func (p plugboard) Forward(k Key) Key {
+	if v, ok := p.forwardMap[k]; ok {
+		return v
 	}
 	return k
 }
 
-// Patch connects two characters on the Patchboard. This makes the two
-// characters switch place when processed by the board.
-func (p *Plugboard) Patch(a, b Key) error {
-	if v, ok := p.Patches[a]; ok {
-		return fmt.Errorf("%s already patched to %s", a, v)
+func (p plugboard) Backward(k Key) Key {
+	if v, ok := p.backwardMap[k]; ok {
+		return v
 	}
-	if v, ok := p.Patches[b]; ok {
-		return fmt.Errorf("%s already patched to %s", b, v)
-	}
-
-	p.Patches[a] = b
-	p.Patches[b] = a
-	return nil
+	return k
 }

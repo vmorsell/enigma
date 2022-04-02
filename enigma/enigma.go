@@ -1,28 +1,24 @@
 package enigma
 
+//go:generate go run ./rotorgen/...
+
 type Enigma struct {
-	Plugboard *Plugboard
+	plugboard Plugboard
 	spindle   Spindle
 }
 
 // New returns an Enigma instance.
-func New(spindle Spindle) *Enigma {
-	return &Enigma{
-		Plugboard: NewPlugboard(),
+func New(plugboard Plugboard, spindle Spindle) Enigma {
+	return Enigma{
+		plugboard: plugboard,
 		spindle:   spindle,
 	}
 }
 
 // Encrypt encrypts a single .
-func (e *Enigma) Encrypt(k Key) (Key, error) {
-	if e.Plugboard != nil {
-		k = e.Plugboard.Handle(k)
-	}
-
+func (e Enigma) Encrypt(k Key) Key {
+	k = e.plugboard.Forward(k)
 	k = e.spindle.Handle(k)
-
-	if e.Plugboard != nil {
-		k = e.Plugboard.Handle(k)
-	}
-	return k, nil
+	k = e.plugboard.Backward(k)
+	return k
 }
