@@ -15,8 +15,8 @@ func New(plugboard Plugboard, spindle Spindle) Enigma {
 
 // Encrypt encrypts a single .
 func (e Enigma) Encrypt(k Key) Key {
-	k = e.plugboard.Forward(k)
+	k = e.plugboard.Handle(k)
 	k = e.spindle.Handle(k)
-	k = e.plugboard.Backward(k)
+	k = e.plugboard.Handle(k)
 	return k
 }
