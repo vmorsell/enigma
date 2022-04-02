@@ -1,5 +1,7 @@
 package main
 
+//go:generate go run .
+
 import (
 	_ "embed"
 	"encoding/json"
@@ -21,9 +23,9 @@ type JSONConfig struct {
 var data []byte
 
 func main() {
-	f, err := os.Create("rotors_gen.go")
+	f, err := os.Create("../../rotors_gen.go")
 	if err != nil {
-		log.Fatalf("open: %s", err.Error())
+		log.Fatalf("create: %s", err.Error())
 	}
 	defer f.Close()
 
@@ -60,7 +62,7 @@ func keyMap(keys string) (map[enigma.Key]enigma.Key, error) {
 const tpl = `package enigma
 
 var (
-{{- range .}}
+	{{- range .}}
 	Rotor{{.Name}} = rotorConfig{
 		mapping: map[Key]Key{
 			{{- range $k, $v := keyMap .Mapping}}
@@ -69,6 +71,6 @@ var (
 		},
 		notch: {{.Notch}},
 	}
-{{- end }}
+	{{- end }}
 )
 `
