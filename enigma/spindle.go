@@ -30,5 +30,21 @@ func (s spindle) Handle(k Key) Key {
 		k = s.rotors[i].Backward(k)
 	}
 
+	// Step the rotors.
+	for i := len(s.rotors) - 1; i >= 0; i-- {
+		// First rotor is always incremented.
+		if i == 0 {
+			s.rotors[i].Step()
+			continue
+		}
+
+		// A subsequent rotor is rotated if the previos
+		// rotor is at its notch.
+		if s.rotors[i-1].Position() == s.rotors[i-1].Notch() {
+			s.rotors[i].Step()
+			continue
+		}
+	}
+
 	return k
 }

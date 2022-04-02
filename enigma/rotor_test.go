@@ -18,7 +18,7 @@ func TestForwardAndBackward(t *testing.T) {
 	forwardMap := map[Key]Key{
 		A: B,
 	}
-	r := NewRotor(forwardMap)
+	r := NewRotor(forwardMap, A, Z)
 
 	t.Run("forward", func(t *testing.T) {
 
@@ -73,4 +73,13 @@ func TestForwardAndBackward(t *testing.T) {
 			})
 		}
 	})
+}
+
+func TestStep(t *testing.T) {
+	pos := B
+	want := A
+	r := NewRotor(nil, pos, Z)
+
+	r.Step()
+	require.Equal(t, r.Position(), want)
 }

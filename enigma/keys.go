@@ -1,32 +1,46 @@
 package enigma
 
-type Key string
+type Key int
 
 const (
-	A Key = "A"
-	B Key = "B"
-	C Key = "C"
-	D Key = "D"
-	E Key = "E"
-	F Key = "F"
-	G Key = "G"
-	H Key = "H"
-	I Key = "I"
-	J Key = "J"
-	K Key = "K"
-	L Key = "L"
-	M Key = "M"
-	N Key = "N"
-	O Key = "O"
-	P Key = "P"
-	Q Key = "Q"
-	R Key = "R"
-	S Key = "S"
-	T Key = "T"
-	U Key = "U"
-	V Key = "V"
-	W Key = "W"
-	X Key = "X"
-	Y Key = "Y"
-	Z Key = "Z"
+	A Key = iota
+	B
+	C
+	D
+	E
+	F
+	G
+	H
+	I
+	J
+	K
+	L
+	M
+	N
+	O
+	P
+	Q
+	R
+	S
+	T
+	U
+	V
+	W
+	X
+	Y
+	Z
 )
+
+const numKeys = 26
+
+func (k Key) Int() int {
+	return int(k)
+}
+
+func (k Key) Shift(offset int) Key {
+	new := (k + Key(offset))
+	for new < 0 {
+		new += numKeys
+	}
+	return new % numKeys
+}

@@ -10,7 +10,7 @@ func TestEncrypt(t *testing.T) {
 	in := A
 	want := F
 
-	rot := NewRotor(map[Key]Key{B: C, E: D})
+	rot := NewRotor(map[Key]Key{B: C, E: D}, A, Z)
 	ref := NewReflector(map[Key]Key{C: D})
 
 	s := NewSpindle([]Rotor{rot}, ref)
