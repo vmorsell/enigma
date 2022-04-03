@@ -5,23 +5,43 @@ type Plugboard interface {
 }
 
 type plugboard struct {
-	mapping map[Char]Char
+	forwardMap  map[Char]Char
+	backwardMap map[Char]Char
 }
 
-func NewPlugboard(mapping map[Char]Char) Plugboard {
+type PlugboardSettings struct {
+	Mappings []PlugboardMapping
+}
+
+type PlugboardMapping struct {
+	From Char
+	To   Char
+}
+
+func NewPlugboard(settings PlugboardSettings) Plugboard {
+	forwardMap, backwardMap := plugboardMaps(settings.Mappings)
 	return plugboard{
-		mapping,
+		forwardMap,
+		backwardMap,
 	}
 }
 
+func plugboardMaps(mapping []PlugboardMapping) (map[Char]Char, map[Char]Char) {
+	forwardMap := make(map[Char]Char, len(mapping))
+	backwardMap := make(map[Char]Char, len(mapping))
+	for _, m := range mapping {
+		forwardMap[m.From] = m.To
+		backwardMap[m.To] = m.From
+	}
+	return forwardMap, backwardMap
+}
+
 func (p plugboard) Handle(c Char) Char {
-	for k, v := range p.mapping {
-		if k == c {
-			return v
-		}
-		if v == c {
-			return k
-		}
+	if v, ok := p.forwardMap[c]; ok {
+		return v
+	}
+	if v, ok := p.backwardMap[c]; ok {
+		return v
 	}
 	return c
 }

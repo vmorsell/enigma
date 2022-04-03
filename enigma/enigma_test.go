@@ -15,13 +15,15 @@ func TestEncrypt(t *testing.T) {
 	ref := NewReflector(ReflectorA)
 	spindle := NewSpindle(rot, ref)
 
-	pb := NewPlugboard(map[Char]Char{
-		A: M,
-		F: I,
-		N: V,
-		P: S,
-		T: U,
-		W: Z,
+	pb := NewPlugboard(PlugboardSettings{
+		Mappings: []PlugboardMapping{
+			{A, M},
+			{F, I},
+			{N, V},
+			{P, S},
+			{T, U},
+			{W, Z},
+		},
 	})
 	e := New(pb, spindle)
 
@@ -40,8 +42,10 @@ func TestEncryptKey(t *testing.T) {
 	}
 	ref := NewReflector(ReflectorA)
 	spindle := NewSpindle(rotors, ref)
-	pb := NewPlugboard(map[Char]Char{
-		A: X,
+	pb := NewPlugboard(PlugboardSettings{
+		Mappings: []PlugboardMapping{
+			{A, X},
+		},
 	})
 	e := New(pb, spindle)
 

@@ -6,9 +6,30 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestPlugboardMaps(t *testing.T) {
+	mapping := []PlugboardMapping{
+		{A, S},
+		{Z, T},
+	}
+	wantFw := map[Char]Char{
+		A: S,
+		Z: T,
+	}
+	wantBw := map[Char]Char{
+		S: A,
+		T: Z,
+	}
+
+	fw, bw := plugboardMaps(mapping)
+	require.EqualValues(t, wantFw, fw, "forward")
+	require.EqualValues(t, wantBw, bw, "backward")
+}
+
 func TestHandle(t *testing.T) {
-	pb := NewPlugboard(map[Char]Char{
-		A: B,
+	pb := NewPlugboard(PlugboardSettings{
+		Mappings: []PlugboardMapping{
+			{A, B},
+		},
 	})
 
 	tests := []struct {
@@ -22,12 +43,12 @@ func TestHandle(t *testing.T) {
 			want: X,
 		},
 		{
-			name: "mapped as char",
+			name: "mapped forward",
 			c:    A,
 			want: B,
 		},
 		{
-			name: "mapped as value",
+			name: "mapped backward",
 			c:    B,
 			want: A,
 		},
