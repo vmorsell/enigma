@@ -132,3 +132,61 @@ func TestSpindleHandle(t *testing.T) {
 		})
 	}
 }
+
+func TestRotate(t *testing.T) {
+	tests := []struct {
+		name      string
+		rotors    []Rotor
+		steps     int
+		positions []Key
+	}{
+		{
+			name:      "one rotor",
+			rotors:    []Rotor{NewRotor(RotorI, A, A)},
+			steps:     3,
+			positions: []Key{D},
+		},
+		{
+			name: "three rotors - turnover on first rotor",
+			rotors: []Rotor{
+				NewRotor(RotorI, A, A),
+				NewRotor(RotorII, A, A),
+				NewRotor(RotorIII, A, A),
+			},
+			steps:     3,
+			positions: []Key{D, A, A},
+		},
+		{
+			name: "three rotors - turnover on first and second rotor",
+			rotors: []Rotor{
+				NewRotor(RotorI, A, P),
+				NewRotor(RotorII, A, A),
+				NewRotor(RotorIII, A, A),
+			},
+			steps:     3,
+			positions: []Key{S, B, A},
+		},
+		{
+			name: "three rotors - turnover on all rotors",
+			rotors: []Rotor{
+				NewRotor(RotorI, A, Q),
+				NewRotor(RotorII, A, E),
+				NewRotor(RotorIII, A, A),
+			},
+			steps:     1,
+			positions: []Key{R, F, B},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			for i := 0; i < tt.steps; i++ {
+				rotate(tt.rotors)
+			}
+
+			for i := 0; i < len(tt.rotors); i++ {
+				require.Equal(t, tt.positions[i], tt.rotors[i].Position())
+			}
+		})
+	}
+}

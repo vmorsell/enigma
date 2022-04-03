@@ -16,7 +16,8 @@ func NewSpindle(rotors []Rotor, reflector Reflector) Spindle {
 	}
 }
 
-func (s spindle) Handle(k Key) Key {
+	rotate(s.rotors)
+
 	// Forward-pass through rotors.
 	for _, s := range s.rotors {
 		k = s.Forward(k)
@@ -30,21 +31,22 @@ func (s spindle) Handle(k Key) Key {
 		k = s.rotors[i].Backward(k)
 	}
 
-	// Step the rotors.
-	for i := len(s.rotors) - 1; i >= 0; i-- {
+	return k
+}
+
+func rotate(rotors []Rotor) {
+	for i := len(rotors) - 1; i >= 0; i-- {
 		// First rotor is always incremented.
 		if i == 0 {
-			s.rotors[i].Step()
+			rotors[i].Step()
 			continue
 		}
 
 		// A subsequent rotor is rotated if the previos
 		// rotor is at its notch.
-		if s.rotors[i-1].Position() == s.rotors[i-1].Notch() {
-			s.rotors[i].Step()
+		if rotors[i-1].Position() == rotors[i-1].Notch() {
+			rotors[i].Step()
 			continue
 		}
 	}
-
-	return k
 }
