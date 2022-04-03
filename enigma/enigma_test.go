@@ -34,7 +34,7 @@ func TestEncrypt(t *testing.T) {
 	require.Equal(t, want, got)
 }
 
-func TestEncryptKey(t *testing.T) {
+func TestEncryptChar(t *testing.T) {
 	rotors := []Rotor{
 		NewRotor(RotorI, A, C),
 		NewRotor(RotorII, B, B),
