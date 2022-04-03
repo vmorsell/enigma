@@ -10,12 +10,13 @@ type spindle struct {
 }
 
 func NewSpindle(rotors []Rotor, reflector Reflector) Spindle {
-	return spindle{
+	return &spindle{
 		rotors,
 		reflector,
 	}
 }
 
+func (s *spindle) Handle(k Key) Key {
 	rotate(s.rotors)
 
 	// Forward-pass through rotors.
