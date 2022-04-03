@@ -15,35 +15,43 @@ func TestInt(t *testing.T) {
 	require.Equal(t, want, got)
 }
 
+func TestStepKey(t *testing.T) {
+	k := C
+	want := D
+
+	got := k.Step()
+	require.Equal(t, want, got)
+}
+
 func TestShift(t *testing.T) {
 	tests := []struct {
 		name   string
 		k      Key
-		offset int
+		offset Key
 		res    Key
 	}{
 		{
 			name:   "positive offset",
 			k:      A,
-			offset: 1,
-			res:    B,
+			offset: C,
+			res:    C,
 		},
 		{
 			name:   "negative offset",
 			k:      B,
-			offset: -1,
+			offset: -B,
 			res:    A,
 		},
 		{
 			name:   "overflow",
-			k:      A,
-			offset: 27,
+			k:      Z,
+			offset: C,
 			res:    B,
 		},
 		{
 			name:   "underflow",
 			k:      A,
-			offset: -1,
+			offset: -B,
 			res:    Z,
 		},
 	}

@@ -39,28 +39,26 @@ func reverseMap(m map[Key]Key) map[Key]Key {
 }
 
 func (r *rotor) Forward(k Key) Key {
-	k = k.Shift(r.position.Int())
+	k = k.Shift(r.position)
 	if v, ok := r.forwardMap[k]; ok {
 		k = v
 	}
-	k = k.Shift(-r.position.Int())
+	k = k.Shift(-r.position)
 	return k
 }
 
 func (r *rotor) Backward(k Key) Key {
-	k = k.Shift(r.position.Int())
+	k = k.Shift(r.position)
 	if v, ok := r.backwardMap[k]; ok {
 		k = v
 	}
-	k = k.Shift(-r.position.Int())
+	k = k.Shift(-r.position)
 	return k
 }
 
 func (r *rotor) Step() {
-	r.position--
-	if r.position%26 == 0 {
-		r.position = 0
-	}
+	r.position = r.position.Shift(1)
+}
 }
 
 func (r *rotor) Position() Key {

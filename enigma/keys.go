@@ -39,12 +39,16 @@ func (k Key) Int() int {
 	return int(k)
 }
 
-func (k Key) Shift(offset int) Key {
-	new := (k + Key(offset))
-	for new < 0 {
-		new += Key(len(values))
+func (k Key) Step() Key {
+	return k.Shift(1)
+}
+
+func (k Key) Shift(key Key) Key {
+	k += key
+	for k < 0 {
+		k += Key(len(values))
 	}
-	return new % Key(len(values))
+	return k % Key(len(values))
 }
 
 func (k Key) String() string {
