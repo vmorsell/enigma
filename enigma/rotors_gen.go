@@ -2,7 +2,7 @@ package enigma
 
 var (
 	RotorI = rotorConfig{
-		mapping: map[Key]Key{
+		mapping: map[Char]Char{
 			A: E,
 			B: K,
 			C: M,
@@ -33,7 +33,7 @@ var (
 		notch: Q,
 	}
 	RotorII = rotorConfig{
-		mapping: map[Key]Key{
+		mapping: map[Char]Char{
 			A: A,
 			B: J,
 			C: D,
@@ -64,7 +64,7 @@ var (
 		notch: E,
 	}
 	RotorIII = rotorConfig{
-		mapping: map[Key]Key{
+		mapping: map[Char]Char{
 			A: B,
 			B: D,
 			C: F,
@@ -95,7 +95,7 @@ var (
 		notch: V,
 	}
 	RotorIV = rotorConfig{
-		mapping: map[Key]Key{
+		mapping: map[Char]Char{
 			A: E,
 			B: S,
 			C: O,
@@ -126,7 +126,7 @@ var (
 		notch: J,
 	}
 	RotorV = rotorConfig{
-		mapping: map[Key]Key{
+		mapping: map[Char]Char{
 			A: V,
 			B: Z,
 			C: B,

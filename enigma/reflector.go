@@ -1,15 +1,15 @@
 package enigma
 
 type Reflector interface {
-	Reflect(k Key) Key
+	Reflect(c Char) Char
 }
 
 type reflector struct {
-	mappings map[Key]Key
+	mappings map[Char]Char
 }
 
 type reflectorConfig struct {
-	mapping map[Key]Key
+	mapping map[Char]Char
 }
 
 func NewReflector(config reflectorConfig) Reflector {
@@ -18,9 +18,9 @@ func NewReflector(config reflectorConfig) Reflector {
 	}
 }
 
-func (r reflector) Reflect(k Key) Key {
-	if v, ok := r.mappings[k]; ok {
+func (r reflector) Reflect(c Char) Char {
+	if v, ok := r.mappings[c]; ok {
 		return v
 	}
-	return k
+	return c
 }

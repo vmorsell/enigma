@@ -7,35 +7,35 @@ import (
 )
 
 func TestHandle(t *testing.T) {
-	pb := NewPlugboard(map[Key]Key{
+	pb := NewPlugboard(map[Char]Char{
 		A: B,
 	})
 
 	tests := []struct {
 		name string
-		k    Key
-		want Key
+		c    Char
+		want Char
 	}{
 		{
 			name: "not mapped",
-			k:    X,
+			c:    X,
 			want: X,
 		},
 		{
-			name: "mapped as key",
-			k:    A,
+			name: "mapped as char",
+			c:    A,
 			want: B,
 		},
 		{
 			name: "mapped as value",
-			k:    B,
+			c:    B,
 			want: A,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := pb.Handle(tt.k)
+			got := pb.Handle(tt.c)
 			require.Equal(t, tt.want, got)
 		})
 	}

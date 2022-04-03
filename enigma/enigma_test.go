@@ -15,7 +15,7 @@ func TestEncrypt(t *testing.T) {
 	ref := NewReflector(ReflectorA)
 	spindle := NewSpindle(rot, ref)
 
-	pb := NewPlugboard(map[Key]Key{
+	pb := NewPlugboard(map[Char]Char{
 		A: M,
 		F: I,
 		N: V,
@@ -25,10 +25,10 @@ func TestEncrypt(t *testing.T) {
 	})
 	e := New(pb, spindle)
 
-	keys := []Key{S, E, C, R, E, T}
-	want := []Key{L, C, G, O, D, U}
+	chars := []Char{S, E, C, R, E, T}
+	want := []Char{L, C, G, O, D, U}
 
-	got := e.Encrypt(keys)
+	got := e.Encrypt(chars)
 	require.Equal(t, want, got)
 }
 
@@ -40,7 +40,7 @@ func TestEncryptKey(t *testing.T) {
 	}
 	ref := NewReflector(ReflectorA)
 	spindle := NewSpindle(rotors, ref)
-	pb := NewPlugboard(map[Key]Key{
+	pb := NewPlugboard(map[Char]Char{
 		A: X,
 	})
 	e := New(pb, spindle)
@@ -48,6 +48,6 @@ func TestEncryptKey(t *testing.T) {
 	in := A
 	want := J
 
-	res := e.encryptKey(in)
+	res := e.encryptChar(in)
 	require.Equal(t, want, res)
 }

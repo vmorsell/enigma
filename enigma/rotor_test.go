@@ -10,10 +10,10 @@ func TestNewRotor(t *testing.T) {
 	tests := []struct {
 		name         string
 		config       rotorConfig
-		ring         Key
-		position     Key
-		wantPosition Key
-		wantNotch    Key
+		ring         Char
+		position     Char
+		wantPosition Char
+		wantNotch    Char
 	}{
 		{
 			name:         "no ring or position",
@@ -55,8 +55,8 @@ func TestNewRotor(t *testing.T) {
 	}
 }
 func TestReverseMap(t *testing.T) {
-	in := map[Key]Key{A: B}
-	want := map[Key]Key{B: A}
+	in := map[Char]Char{A: B}
+	want := map[Char]Char{B: A}
 
 	res := reverseMap(in)
 	require.Equal(t, want, res)
@@ -66,25 +66,25 @@ func TestForwardAndBackward(t *testing.T) {
 	tests := []struct {
 		name string
 		rot  Rotor
-		k    Key
-		out  Key
+		c    Char
+		out  Char
 	}{
 		{
 			name: "ok",
 			rot:  NewRotor(RotorI, A, A),
-			k:    A,
+			c:    A,
 			out:  E,
 		},
 		{
 			name: "with ring setting",
 			rot:  NewRotor(RotorI, B, A),
-			k:    A,
+			c:    A,
 			out:  K,
 		},
 		{
 			name: "with shifted position",
 			rot:  NewRotor(RotorI, A, B),
-			k:    A,
+			c:    A,
 			out:  J,
 		},
 	}
@@ -92,13 +92,13 @@ func TestForwardAndBackward(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Run("forward", func(t *testing.T) {
-				out := tt.rot.Forward(tt.k)
+				out := tt.rot.Forward(tt.c)
 				require.Equal(t, tt.out, out)
 			})
 
 			t.Run("backward", func(t *testing.T) {
-				k := tt.rot.Backward(tt.out)
-				require.Equal(t, tt.k, k)
+				c := tt.rot.Backward(tt.out)
+				require.Equal(t, tt.c, c)
 			})
 		})
 	}

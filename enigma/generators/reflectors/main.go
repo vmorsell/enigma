@@ -33,7 +33,7 @@ func main() {
 	}
 
 	funcs := template.FuncMap{
-		"keyMap": generators.KeyMap,
+		"charMap": generators.CharMap,
 	}
 	t := template.Must(template.New("config").Funcs(funcs).Parse(tpl))
 	if err := t.Execute(f, reflectors); err != nil {
@@ -46,8 +46,8 @@ const tpl = `package enigma
 var (
 	{{- range .}}
 	Reflector{{.Name}} = reflectorConfig{
-		mapping: map[Key]Key{
-			{{- range $k, $v := keyMap .Mapping}}
+		mapping: map[Char]Char{
+			{{- range $k, $v := charMap .Mapping}}
 			{{$k}}: {{$v}},
 			{{- end}}
 		},

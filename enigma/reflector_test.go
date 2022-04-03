@@ -8,31 +8,31 @@ import (
 
 func TestReflect(t *testing.T) {
 	r := NewReflector(reflectorConfig{
-		mapping: map[Key]Key{
+		mapping: map[Char]Char{
 			A: B,
 		},
 	})
 
 	tests := []struct {
 		name string
-		k    Key
-		res  Key
+		c    Char
+		res  Char
 	}{
 		{
 			name: "found in map",
-			k:    A,
+			c:    A,
 			res:  B,
 		},
 		{
 			name: "not found",
-			k:    X,
+			c:    X,
 			res:  X,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			res := r.Reflect(tt.k)
+			res := r.Reflect(tt.c)
 			require.Equal(t, tt.res, res)
 		})
 	}

@@ -1,27 +1,27 @@
 package enigma
 
 type Plugboard interface {
-	Handle(k Key) Key
+	Handle(c Char) Char
 }
 
 type plugboard struct {
-	mapping map[Key]Key
+	mapping map[Char]Char
 }
 
-func NewPlugboard(mapping map[Key]Key) Plugboard {
+func NewPlugboard(mapping map[Char]Char) Plugboard {
 	return plugboard{
 		mapping,
 	}
 }
 
-func (p plugboard) Handle(key Key) Key {
+func (p plugboard) Handle(c Char) Char {
 	for k, v := range p.mapping {
-		if k == key {
+		if k == c {
 			return v
 		}
-		if v == key {
+		if v == c {
 			return k
 		}
 	}
-	return key
+	return c
 }

@@ -8,35 +8,35 @@ import (
 
 func TestSpindleHandle(t *testing.T) {
 	tests := []struct {
-		name string
-		rot  []Rotor
-		ref  Reflector
-		keys []Key
-		res  []Key
+		name  string
+		rot   []Rotor
+		ref   Reflector
+		chars []Char
+		res   []Char
 	}{
 		{
-			name: "one rotor - one key",
-			rot:  []Rotor{NewRotor(RotorI, A, A)},
-			ref:  NewReflector(ReflectorA),
-			keys: []Key{A},
-			res:  []Key{X},
+			name:  "one rotor - one char",
+			rot:   []Rotor{NewRotor(RotorI, A, A)},
+			ref:   NewReflector(ReflectorA),
+			chars: []Char{A},
+			res:   []Char{X},
 		},
 		{
-			name: "one rotor - multiple keys",
-			rot:  []Rotor{NewRotor(RotorI, A, A)},
-			ref:  NewReflector(ReflectorA),
-			keys: []Key{A, A},
-			res:  []Key{X, M},
+			name:  "one rotor - multiple chars",
+			rot:   []Rotor{NewRotor(RotorI, A, A)},
+			ref:   NewReflector(ReflectorA),
+			chars: []Char{A, A},
+			res:   []Char{X, M},
 		},
 		{
-			name: "two rotors - multiple keys",
+			name: "two rotors - multiple chars",
 			rot: []Rotor{
 				NewRotor(RotorI, A, A),
 				NewRotor(RotorII, A, A),
 			},
-			ref:  NewReflector(ReflectorA),
-			keys: []Key{A, A},
-			res:  []Key{X, M},
+			ref:   NewReflector(ReflectorA),
+			chars: []Char{A, A},
+			res:   []Char{X, M},
 		},
 		{
 			name: "three rotors",
@@ -45,9 +45,9 @@ func TestSpindleHandle(t *testing.T) {
 				NewRotor(RotorII, A, A),
 				NewRotor(RotorI, A, A),
 			},
-			ref:  NewReflector(ReflectorB),
-			keys: []Key{A, A, A, A, A},
-			res:  []Key{B, D, Z, G, O},
+			ref:   NewReflector(ReflectorB),
+			chars: []Char{A, A, A, A, A},
+			res:   []Char{B, D, Z, G, O},
 		},
 		{
 			name: "real data - with start position",
@@ -56,9 +56,9 @@ func TestSpindleHandle(t *testing.T) {
 				NewRotor(RotorII, A, B),
 				NewRotor(RotorI, A, B),
 			},
-			ref:  NewReflector(ReflectorB),
-			keys: []Key{A, A, A, A, A},
-			res:  []Key{P, G, Q, P, W},
+			ref:   NewReflector(ReflectorB),
+			chars: []Char{A, A, A, A, A},
+			res:   []Char{P, G, Q, P, W},
 		},
 		{
 			name: "real data - with ring settings",
@@ -67,9 +67,9 @@ func TestSpindleHandle(t *testing.T) {
 				NewRotor(RotorII, B, A),
 				NewRotor(RotorI, B, A),
 			},
-			ref:  NewReflector(ReflectorB),
-			keys: []Key{A, A, A, A, A},
-			res:  []Key{E, W, T, Y, X},
+			ref:   NewReflector(ReflectorB),
+			chars: []Char{A, A, A, A, A},
+			res:   []Char{E, W, T, Y, X},
 		},
 	}
 
@@ -77,10 +77,10 @@ func TestSpindleHandle(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			s := NewSpindle(tt.rot, tt.ref)
 
-			res := make([]Key, 0, len(tt.keys))
-			for _, k := range tt.keys {
-				kk := s.Handle(k)
-				res = append(res, kk)
+			res := make([]Char, 0, len(tt.chars))
+			for _, c := range tt.chars {
+				cc := s.Handle(c)
+				res = append(res, cc)
 			}
 			require.Equal(t, tt.res, res)
 		})
@@ -92,13 +92,13 @@ func TestRotate(t *testing.T) {
 		name      string
 		rotors    []Rotor
 		steps     int
-		positions []Key
+		positions []Char
 	}{
 		{
 			name:      "one rotor",
 			rotors:    []Rotor{NewRotor(RotorI, A, A)},
 			steps:     3,
-			positions: []Key{D},
+			positions: []Char{D},
 		},
 		{
 			name: "three rotors - turnover on first rotor",
@@ -108,7 +108,7 @@ func TestRotate(t *testing.T) {
 				NewRotor(RotorIII, A, A),
 			},
 			steps:     3,
-			positions: []Key{D, A, A},
+			positions: []Char{D, A, A},
 		},
 		{
 			name: "three rotors - turnover on first and second rotor",
@@ -118,7 +118,7 @@ func TestRotate(t *testing.T) {
 				NewRotor(RotorIII, A, A),
 			},
 			steps:     3,
-			positions: []Key{S, B, A},
+			positions: []Char{S, B, A},
 		},
 		{
 			name: "three rotors - turnover on all rotors",
@@ -128,7 +128,7 @@ func TestRotate(t *testing.T) {
 				NewRotor(RotorIII, A, A),
 			},
 			steps:     1,
-			positions: []Key{R, F, B},
+			positions: []Char{R, F, B},
 		},
 	}
 

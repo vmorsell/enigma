@@ -2,7 +2,7 @@ package enigma
 
 var (
 	ReflectorA = reflectorConfig{
-		mapping: map[Key]Key{
+		mapping: map[Char]Char{
 			A: E,
 			B: J,
 			C: M,
@@ -32,7 +32,7 @@ var (
 		},
 	}
 	ReflectorB = reflectorConfig{
-		mapping: map[Key]Key{
+		mapping: map[Char]Char{
 			A: Y,
 			B: R,
 			C: U,
@@ -62,7 +62,7 @@ var (
 		},
 	}
 	ReflectorC = reflectorConfig{
-		mapping: map[Key]Key{
+		mapping: map[Char]Char{
 			A: F,
 			B: V,
 			C: P,

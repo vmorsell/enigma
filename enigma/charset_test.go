@@ -8,49 +8,49 @@ import (
 )
 
 func TestInt(t *testing.T) {
-	k := C
+	c := C
 	want := 2
 
-	got := k.Int()
+	got := c.Int()
 	require.Equal(t, want, got)
 }
 
-func TestStepKey(t *testing.T) {
-	k := C
+func TestStepChar(t *testing.T) {
+	c := C
 	want := D
 
-	got := k.Step()
+	got := c.Step()
 	require.Equal(t, want, got)
 }
 
 func TestShift(t *testing.T) {
 	tests := []struct {
 		name   string
-		k      Key
-		offset Key
-		res    Key
+		c      Char
+		offset Char
+		res    Char
 	}{
 		{
 			name:   "positive offset",
-			k:      A,
+			c:      A,
 			offset: C,
 			res:    C,
 		},
 		{
 			name:   "negative offset",
-			k:      B,
+			c:      B,
 			offset: -B,
 			res:    A,
 		},
 		{
 			name:   "overflow",
-			k:      Z,
+			c:      Z,
 			offset: C,
 			res:    B,
 		},
 		{
 			name:   "underflow",
-			k:      A,
+			c:      A,
 			offset: -B,
 			res:    Z,
 		},
@@ -58,7 +58,7 @@ func TestShift(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			res := tt.k.Shift(tt.offset)
+			res := tt.c.Shift(tt.offset)
 			require.Equal(t, tt.res, res)
 		})
 	}
@@ -67,37 +67,37 @@ func TestShift(t *testing.T) {
 func TestString(t *testing.T) {
 	alphaOffset := 65
 
-	for i := 0; i < len(values); i++ {
+	for i := 0; i < len(charSet); i++ {
 		want := fmt.Sprintf("%c", i+alphaOffset)
-		got := Key(i).String()
+		got := Char(i).String()
 		require.Equal(t, want, got)
 	}
 }
 
-func TestStringToKeys(t *testing.T) {
+func TestStringToChars(t *testing.T) {
 	tests := []struct {
 		name string
 		s    string
-		k    []Key
+		c    []Char
 		err  error
 	}{
 		{
-			name: "not ok - key not found",
+			name: "not ok - not in charset",
 			s:    "Ö",
-			err:  errUnknownKey("Ö"),
+			err:  errNotInCharset("Ö"),
 		},
 		{
 			name: "ok",
 			s:    "A",
-			k:    []Key{A},
+			c:    []Char{A},
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			keys, err := StringToKeys(tt.s)
+			chars, err := StringToChars(tt.s)
 			require.Equal(t, tt.err, err)
-			require.Equal(t, tt.k, keys)
+			require.Equal(t, tt.c, chars)
 		})
 	}
 }

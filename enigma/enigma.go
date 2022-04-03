@@ -13,20 +13,20 @@ func New(plugboard Plugboard, spindle Spindle) Enigma {
 	}
 }
 
-// Encrypt encrypts a slice of keys.
-func (e Enigma) Encrypt(keys []Key) []Key {
-	res := make([]Key, 0, len(keys))
-	for _, k := range keys {
-		kk := e.encryptKey(k)
-		res = append(res, kk)
+// Encrypt encrypts a slice of chars.
+func (e Enigma) Encrypt(chars []Char) []Char {
+	res := make([]Char, 0, len(chars))
+	for _, c := range chars {
+		cc := e.encryptChar(c)
+		res = append(res, cc)
 	}
 	return res
 }
 
-// encryptKey encrypts a single key.
-func (e Enigma) encryptKey(k Key) Key {
-	k = e.plugboard.Handle(k)
-	k = e.spindle.Handle(k)
-	k = e.plugboard.Handle(k)
-	return k
+// encryptChar encrypts a single char.
+func (e Enigma) encryptChar(c Char) Char {
+	c = e.plugboard.Handle(c)
+	c = e.spindle.Handle(c)
+	c = e.plugboard.Handle(c)
+	return c
 }
