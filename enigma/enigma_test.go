@@ -16,7 +16,7 @@ func TestEncrypt(t *testing.T) {
 			E: D,
 		},
 		notch: Z,
-	}, A)
+	}, A, A)
 	ref := NewReflector(reflectorConfig{
 		mapping: map[Key]Key{
 			C: D,

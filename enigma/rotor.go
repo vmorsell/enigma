@@ -4,13 +4,16 @@ type Rotor interface {
 	Forward(k Key) Key
 	Backward(k Key) Key
 	Step()
+	SetRing(k Key)
 	Position() Key
+	SetPosition(k Key)
 	Notch() Key
 }
 
 type rotor struct {
 	forwardMap  map[Key]Key
 	backwardMap map[Key]Key
+	ring        Key
 	position    Key
 	notch       Key
 }
@@ -20,14 +23,16 @@ type rotorConfig struct {
 	notch   Key
 }
 
-func NewRotor(config rotorConfig, position Key) Rotor {
+func NewRotor(config rotorConfig, ring Key, position Key) Rotor {
 	backwardMap := reverseMap(config.mapping)
-	return &rotor{
+	r := &rotor{
 		forwardMap:  config.mapping,
 		backwardMap: backwardMap,
 		notch:       config.notch,
-		position:    position,
 	}
+	r.SetRing(ring)
+	r.SetPosition(position)
+	return r
 }
 
 func reverseMap(m map[Key]Key) map[Key]Key {
@@ -59,6 +64,18 @@ func (r *rotor) Backward(k Key) Key {
 func (r *rotor) Step() {
 	r.position = r.position.Shift(1)
 }
+
+// SetRing shifts the rotor mapping in the same way as shifting the wiring in
+// the rotor would do.
+func (r *rotor) SetRing(k Key) {
+	r.position = r.position.Shift(-k)
+	r.notch = r.notch.Shift(-k)
+}
+
+// SetPosition shifts the rotor mapping in the same way as a physical rotation
+// of the rotor would do.
+func (r *rotor) SetPosition(k Key) {
+	r.position = r.position.Shift(k)
 }
 
 func (r *rotor) Position() Key {

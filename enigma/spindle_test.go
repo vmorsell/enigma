@@ -16,106 +16,60 @@ func TestSpindleHandle(t *testing.T) {
 	}{
 		{
 			name: "one rotor - one key",
-			rot: []Rotor{NewRotor(rotorConfig{
-				mapping: map[Key]Key{
-					A: B,
-					Y: X,
-				},
-				notch: Z,
-			}, A)},
-			ref: NewReflector(reflectorConfig{
-				mapping: map[Key]Key{
-					B: X,
-				},
-			}),
+			rot:  []Rotor{NewRotor(RotorI, A, A)},
+			ref:  NewReflector(ReflectorA),
 			keys: []Key{A},
-			res:  []Key{Y},
+			res:  []Key{X},
 		},
 		{
 			name: "one rotor - multiple keys",
-			rot: []Rotor{NewRotor(rotorConfig{
-				mapping: map[Key]Key{
-					A: R,
-					J: B,
-					Z: O,
-					L: J,
-				},
-				notch: Z,
-			}, A)},
-			ref: NewReflector(reflectorConfig{
-				mapping: map[Key]Key{
-					R: B,
-					P: K,
-				},
-			}),
+			rot:  []Rotor{NewRotor(RotorI, A, A)},
+			ref:  NewReflector(ReflectorA),
 			keys: []Key{A, A},
-			res:  []Key{J, M},
+			res:  []Key{X, M},
 		},
 		{
 			name: "two rotors - multiple keys",
 			rot: []Rotor{
-				NewRotor(rotorConfig{
-					mapping: map[Key]Key{
-						A: R,
-						V: U,
-
-						Z: G,
-						S: O,
-					},
-					notch: Z,
-				}, A),
-				NewRotor(rotorConfig{
-					mapping: map[Key]Key{
-						R: T,
-						U: D,
-
-						H: N,
-						P: O,
-					},
-					notch: Z,
-				}, A),
+				NewRotor(RotorI, A, A),
+				NewRotor(RotorII, A, A),
 			},
-			ref: NewReflector(reflectorConfig{
-				mapping: map[Key]Key{
-					T: D,
-					N: O,
-				},
-			}),
+			ref:  NewReflector(ReflectorA),
 			keys: []Key{A, A},
-			res:  []Key{V, T},
+			res:  []Key{X, M},
 		},
 		{
-			name: "two rotors - multiple keys - both rotors rotates after first key",
+			name: "three rotors",
 			rot: []Rotor{
-				NewRotor(rotorConfig{
-					mapping: map[Key]Key{
-						A: T,
-						E: R,
-
-						Z: L,
-						K: F,
-					},
-					notch: A,
-				}, A),
-				NewRotor(rotorConfig{
-					mapping: map[Key]Key{
-						T: Q,
-						R: G,
-
-						L: U,
-						F: S,
-					},
-					notch: Z,
-				}, A),
+				NewRotor(RotorIII, A, A),
+				NewRotor(RotorII, A, A),
+				NewRotor(RotorI, A, A),
 			},
-			ref: NewReflector(reflectorConfig{
-				mapping: map[Key]Key{
-					Q: G,
-					V: T,
-				},
-			}),
-			keys: []Key{A, A},
-			res:  []Key{E, L},
+			ref:  NewReflector(ReflectorB),
+			keys: []Key{A, A, A, A, A},
+			res:  []Key{B, D, Z, G, O},
+		},
+		{
+			name: "real data - with start position",
+			rot: []Rotor{
+				NewRotor(RotorIII, A, B),
+				NewRotor(RotorII, A, B),
+				NewRotor(RotorI, A, B),
+			},
+			ref:  NewReflector(ReflectorB),
+			keys: []Key{A, A, A, A, A},
+			res:  []Key{P, G, Q, P, W},
+		},
+		{
+			name: "real data - with ring settings",
+			rot: []Rotor{
+				NewRotor(RotorIII, B, A),
+				NewRotor(RotorII, B, A),
+				NewRotor(RotorI, B, A),
+			},
+			ref:  NewReflector(ReflectorB),
+			keys: []Key{A, A, A, A, A},
+			res:  []Key{E, W, T, Y, X},
 		},
 	}
 
