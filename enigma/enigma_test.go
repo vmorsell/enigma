@@ -7,26 +7,47 @@ import (
 )
 
 func TestEncrypt(t *testing.T) {
-	in := A
-	want := F
+	rot := []Rotor{
+		NewRotor(RotorIII, V, L),
+		NewRotor(RotorI, M, B),
+		NewRotor(RotorII, X, A),
+	}
+	ref := NewReflector(ReflectorA)
+	spindle := NewSpindle(rot, ref)
 
-	rot := NewRotor(rotorConfig{
-		mapping: map[Key]Key{
-			B: C,
-			E: D,
-		},
-		notch: Z,
-	}, A, A)
-	ref := NewReflector(reflectorConfig{
-		mapping: map[Key]Key{
-			C: D,
-		},
+	pb := NewPlugboard(map[Key]Key{
+		A: M,
+		F: I,
+		N: V,
+		P: S,
+		T: U,
+		W: Z,
 	})
+	e := New(pb, spindle)
 
-	s := NewSpindle([]Rotor{rot}, ref)
-	p := NewPlugboard(map[Key]Key{A: B, F: E})
+	keys := []Key{S, E, C, R, E, T}
+	want := []Key{L, C, G, O, D, U}
 
-	e := New(p, s)
-	res := e.Encrypt(in)
+	got := e.Encrypt(keys)
+	require.Equal(t, want, got)
+}
+
+func TestEncryptKey(t *testing.T) {
+	rotors := []Rotor{
+		NewRotor(RotorI, A, C),
+		NewRotor(RotorII, B, B),
+		NewRotor(RotorIII, C, A),
+	}
+	ref := NewReflector(ReflectorA)
+	spindle := NewSpindle(rotors, ref)
+	pb := NewPlugboard(map[Key]Key{
+		A: X,
+	})
+	e := New(pb, spindle)
+
+	in := A
+	want := J
+
+	res := e.encryptKey(in)
 	require.Equal(t, want, res)
 }
