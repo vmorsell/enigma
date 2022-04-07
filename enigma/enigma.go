@@ -22,8 +22,8 @@ func NewEnigma(key DailyKey) Enigma {
 
 // SetDailyKey applies a daily key for the Enigma instance.
 func (e *enigma) SetDailyKey(key DailyKey) {
-	pb := NewPlugboard(key.PlugConnections)
-	spindle := NewSpindle(key.Rotors, key.Reflector, key.RingSettings, key.RotorPositions)
+	pb := NewPlugboard(key.Plugs)
+	spindle := NewSpindle(key.RotorTypes, key.ReflectorType, key.Rings, key.Positions)
 
 	e.plugboard = pb
 	e.spindle = spindle

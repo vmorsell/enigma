@@ -8,11 +8,11 @@ import (
 
 func TestEncrypt(t *testing.T) {
 	key := DailyKey{
-		Rotors:         []RotorType{RotorIII, RotorI, RotorII},
-		Reflector:      ReflectorA,
-		RingSettings:   []Char{V, M, X},
-		RotorPositions: []Char{L, B, A},
-		PlugConnections: []PlugboardMapping{
+		RotorTypes:    []RotorType{RotorIII, RotorI, RotorII},
+		ReflectorType: ReflectorA,
+		Rings:         []Char{V, M, X},
+		Positions:     []Char{L, B, A},
+		Plugs: []PlugboardMapping{
 			{A, M},
 			{F, I},
 			{N, V},
@@ -32,11 +32,11 @@ func TestEncrypt(t *testing.T) {
 
 func TestEncryptChar(t *testing.T) {
 	key := DailyKey{
-		Rotors:         []RotorType{RotorI, RotorII, RotorIII},
-		Reflector:      ReflectorA,
-		RingSettings:   []Char{A, B, C},
-		RotorPositions: []Char{C, B, A},
-		PlugConnections: []PlugboardMapping{
+		RotorTypes:    []RotorType{RotorI, RotorII, RotorIII},
+		ReflectorType: ReflectorA,
+		Rings:         []Char{A, B, C},
+		Positions:     []Char{C, B, A},
+		Plugs: []PlugboardMapping{
 			{A, X},
 		},
 	}

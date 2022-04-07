@@ -5,21 +5,21 @@ import "math/rand"
 // DailyKey is the initialization vector for the Enigma machine. It's used
 // as base settings for all encryption and decryption.
 type DailyKey struct {
-	Rotors          []RotorType
-	Reflector       ReflectorType
-	RingSettings    []Char
-	RotorPositions  []Char
-	PlugConnections []PlugboardMapping
+	RotorTypes    []RotorType
+	ReflectorType ReflectorType
+	Rings         []Char
+	Positions     []Char
+	Plugs         []PlugboardMapping
 }
 
 // NewDailyKey returs a daily key.
-func NewDailyKey(rotors []RotorType, reflector ReflectorType, ringSettings []Char, rotorPositions []Char, plugConnections []PlugboardMapping) DailyKey {
+func NewDailyKey(rotorTypes []RotorType, reflectorType ReflectorType, rings []Char, positions []Char, plugs []PlugboardMapping) DailyKey {
 	return DailyKey{
-		Rotors:          rotors,
-		Reflector:       reflector,
-		RingSettings:    ringSettings,
-		RotorPositions:  rotorPositions,
-		PlugConnections: plugConnections,
+		RotorTypes:    rotorTypes,
+		ReflectorType: reflectorType,
+		Rings:         rings,
+		Positions:     positions,
+		Plugs:         plugs,
 	}
 }
 
@@ -27,11 +27,11 @@ func NewDailyKey(rotors []RotorType, reflector ReflectorType, ringSettings []Cha
 func RandomDailyKey() DailyKey {
 	rot := randomRotors(3)
 	ref := randomReflector()
-	ring := randomChars(3)
+	rng := randomChars(3)
 	pos := randomChars(3)
-	plug := randomPlugConnections(10)
+	plg := randomPlugConnections(10)
 
-	return NewDailyKey(rot, ref, ring, pos, plug)
+	return NewDailyKey(rot, ref, rng, pos, plg)
 }
 
 // randomRotors returns n rotor types in a random order.
