@@ -8,81 +8,80 @@ import (
 
 func TestSpindleHandle(t *testing.T) {
 	tests := []struct {
-		name  string
-		rot   []Rotor
-		ref   Reflector
-		chars []Char
-		res   []Char
+		name      string
+		rotors    []RotorType
+		reflector ReflectorType
+		rings     []Char
+		positions []Char
+		in        []Char
+		out       []Char
 	}{
 		{
-			name:  "one rotor - one char",
-			rot:   []Rotor{NewRotor(RotorI, A, A)},
-			ref:   NewReflector(ReflectorA),
-			chars: []Char{A},
-			res:   []Char{X},
+			name:      "one rotor - one char",
+			rotors:    []RotorType{RotorI},
+			reflector: ReflectorA,
+			rings:     []Char{A},
+			positions: []Char{A},
+			in:        []Char{A},
+			out:       []Char{X},
 		},
 		{
-			name:  "one rotor - multiple chars",
-			rot:   []Rotor{NewRotor(RotorI, A, A)},
-			ref:   NewReflector(ReflectorA),
-			chars: []Char{A, A},
-			res:   []Char{X, M},
+			name:      "one rotor - multiple chars",
+			rotors:    []RotorType{RotorI},
+			reflector: ReflectorA,
+			rings:     []Char{A},
+			positions: []Char{A},
+			in:        []Char{A, A},
+			out:       []Char{X, M},
 		},
 		{
-			name: "two rotors - multiple chars",
-			rot: []Rotor{
-				NewRotor(RotorI, A, A),
-				NewRotor(RotorII, A, A),
-			},
-			ref:   NewReflector(ReflectorA),
-			chars: []Char{A, A},
-			res:   []Char{X, M},
+			name:      "two rotors - multiple chars",
+			rotors:    []RotorType{RotorI, RotorII},
+			reflector: ReflectorA,
+			rings:     []Char{A, A},
+			positions: []Char{A, A},
+			in:        []Char{A, A},
+			out:       []Char{X, M},
 		},
 		{
-			name: "three rotors",
-			rot: []Rotor{
-				NewRotor(RotorIII, A, A),
-				NewRotor(RotorII, A, A),
-				NewRotor(RotorI, A, A),
-			},
-			ref:   NewReflector(ReflectorB),
-			chars: []Char{A, A, A, A, A},
-			res:   []Char{B, D, Z, G, O},
+			name:      "three rotors",
+			rotors:    []RotorType{RotorIII, RotorII, RotorI},
+			reflector: ReflectorB,
+			rings:     []Char{A, A, A},
+			positions: []Char{A, A, A},
+			in:        []Char{A, A, A, A, A},
+			out:       []Char{B, D, Z, G, O},
 		},
 		{
-			name: "real data - with start position",
-			rot: []Rotor{
-				NewRotor(RotorIII, A, B),
-				NewRotor(RotorII, A, B),
-				NewRotor(RotorI, A, B),
-			},
-			ref:   NewReflector(ReflectorB),
-			chars: []Char{A, A, A, A, A},
-			res:   []Char{P, G, Q, P, W},
+			name:      "three rotors - with start position",
+			rotors:    []RotorType{RotorIII, RotorII, RotorI},
+			reflector: ReflectorB,
+			rings:     []Char{A, A, A},
+			positions: []Char{B, B, B},
+			in:        []Char{A, A, A, A, A},
+			out:       []Char{P, G, Q, P, W},
 		},
 		{
-			name: "real data - with ring settings",
-			rot: []Rotor{
-				NewRotor(RotorIII, B, A),
-				NewRotor(RotorII, B, A),
-				NewRotor(RotorI, B, A),
-			},
-			ref:   NewReflector(ReflectorB),
-			chars: []Char{A, A, A, A, A},
-			res:   []Char{E, W, T, Y, X},
+			name:      "three rotors - with ring settings",
+			rotors:    []RotorType{RotorIII, RotorII, RotorI},
+			reflector: ReflectorB,
+			rings:     []Char{B, B, B},
+			positions: []Char{A, A, A},
+			in:        []Char{A, A, A, A, A},
+			out:       []Char{E, W, T, Y, X},
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := NewSpindle(tt.rot, tt.ref)
+			s := NewSpindle(tt.rotors, tt.reflector, tt.rings, tt.positions)
 
-			res := make([]Char, 0, len(tt.chars))
-			for _, c := range tt.chars {
+			out := make([]Char, 0, len(tt.in))
+			for _, c := range tt.in {
 				cc := s.Handle(c)
-				res = append(res, cc)
+				out = append(out, cc)
 			}
-			require.Equal(t, tt.res, res)
+			require.Equal(t, tt.out, out)
 		})
 	}
 }

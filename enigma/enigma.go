@@ -1,20 +1,40 @@
 package enigma
 
-type Enigma struct {
+// Enigma represents an Enigma instance.
+type Enigma interface {
+	Encrypt(chars []Char) []Char
+	SetDailyKey(key DailyKey)
+	SetMessageKey(key MessageKey)
+}
+
+// enigma implements the Enigma logic.
+type enigma struct {
 	plugboard Plugboard
 	spindle   Spindle
 }
 
 // New returns an Enigma instance.
-func New(plugboard Plugboard, spindle Spindle) Enigma {
-	return Enigma{
-		plugboard: plugboard,
-		spindle:   spindle,
-	}
+func NewEnigma(key DailyKey) Enigma {
+	e := &enigma{}
+	e.SetDailyKey(key)
+	return e
+}
+
+// SetDailyKey applies a daily key for the Enigma instance.
+func (e *enigma) SetDailyKey(key DailyKey) {
+	pb := NewPlugboard(key.PlugConnections)
+	spindle := NewSpindle(key.Rotors, key.Reflector, key.RingSettings, key.RotorPositions)
+
+	e.plugboard = pb
+	e.spindle = spindle
+}
+
+// SetMessageKey applies a message key to the Enigma instance.
+func (e *enigma) SetMessageKey(key MessageKey) {
 }
 
 // Encrypt encrypts a slice of chars.
-func (e Enigma) Encrypt(chars []Char) []Char {
+func (e *enigma) Encrypt(chars []Char) []Char {
 	res := make([]Char, 0, len(chars))
 	for _, c := range chars {
 		cc := e.encryptChar(c)
@@ -24,7 +44,7 @@ func (e Enigma) Encrypt(chars []Char) []Char {
 }
 
 // encryptChar encrypts a single char.
-func (e Enigma) encryptChar(c Char) Char {
+func (e *enigma) encryptChar(c Char) Char {
 	c = e.plugboard.Handle(c)
 	c = e.spindle.Handle(c)
 	c = e.plugboard.Handle(c)

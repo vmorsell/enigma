@@ -1,7 +1,7 @@
 package enigma
 
 var (
-	ReflectorA = reflectorConfig{
+	ReflectorA = ReflectorType{
 		mapping: map[Char]Char{
 			A: E,
 			B: J,
@@ -31,7 +31,7 @@ var (
 			Z: D,
 		},
 	}
-	ReflectorB = reflectorConfig{
+	ReflectorB = ReflectorType{
 		mapping: map[Char]Char{
 			A: Y,
 			B: R,
@@ -61,7 +61,7 @@ var (
 			Z: T,
 		},
 	}
-	ReflectorC = reflectorConfig{
+	ReflectorC = ReflectorType{
 		mapping: map[Char]Char{
 			A: F,
 			B: V,
@@ -90,5 +90,11 @@ var (
 			Y: H,
 			Z: L,
 		},
+	}
+
+	AllReflectorTypes = []ReflectorType{
+		ReflectorA,
+		ReflectorB,
+		ReflectorC,
 	}
 )

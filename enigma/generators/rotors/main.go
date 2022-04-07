@@ -34,7 +34,8 @@ func main() {
 	}
 
 	funcs := template.FuncMap{
-		"charMap": generators.CharMap,
+		"charMap":         generators.CharMap,
+		"backwardCharMap": generators.BackwardCharMap,
 	}
 	t := template.Must(template.New("config").Funcs(funcs).Parse(tpl))
 	if err := t.Execute(f, rotors); err != nil {
@@ -46,14 +47,25 @@ const tpl = `package enigma
 
 var (
 	{{- range .}}
-	Rotor{{.Name}} = rotorConfig{
-		mapping: map[Char]Char{
+	Rotor{{.Name}} = RotorType{
+		forwardMapping: map[Char]Char{
 			{{- range $k, $v := charMap .Mapping}}
+			{{$k}}: {{$v}},
+			{{- end}}
+		},
+		backwardMapping: map[Char]Char{
+			{{- range $k, $v := backwardCharMap .Mapping}}
 			{{$k}}: {{$v}},
 			{{- end}}
 		},
 		notch: {{.Notch}},
 	}
 	{{- end }}
+
+	AllRotorTypes = []RotorType{
+		{{- range .}}
+		Rotor{{.Name}},
+		{{- end}}
+	}
 )
 `

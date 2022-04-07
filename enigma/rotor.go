@@ -11,41 +11,30 @@ type Rotor interface {
 }
 
 type rotor struct {
-	forwardMap  map[Char]Char
-	backwardMap map[Char]Char
-	ring        Char
-	position    Char
-	notch       Char
+	typ      RotorType
+	ring     Char
+	position Char
 }
 
-type rotorConfig struct {
-	mapping map[Char]Char
-	notch   Char
+type RotorType struct {
+	name            string
+	forwardMapping  map[Char]Char
+	backwardMapping map[Char]Char
+	notch           Char
 }
 
-func NewRotor(config rotorConfig, ring Char, position Char) Rotor {
-	backwardMap := reverseMap(config.mapping)
+func NewRotor(typ RotorType, ring Char, position Char) Rotor {
 	r := &rotor{
-		forwardMap:  config.mapping,
-		backwardMap: backwardMap,
-		notch:       config.notch,
+		typ: typ,
 	}
 	r.SetRing(ring)
 	r.SetPosition(position)
 	return r
 }
 
-func reverseMap(m map[Char]Char) map[Char]Char {
-	res := make(map[Char]Char, len(m))
-	for k, v := range m {
-		res[v] = k
-	}
-	return res
-}
-
 func (r *rotor) Forward(c Char) Char {
 	c = c.Shift(r.position)
-	if v, ok := r.forwardMap[c]; ok {
+	if v, ok := r.typ.forwardMapping[c]; ok {
 		c = v
 	}
 	c = c.Shift(-r.position)
@@ -54,7 +43,7 @@ func (r *rotor) Forward(c Char) Char {
 
 func (r *rotor) Backward(c Char) Char {
 	c = c.Shift(r.position)
-	if v, ok := r.backwardMap[c]; ok {
+	if v, ok := r.typ.backwardMapping[c]; ok {
 		c = v
 	}
 	c = c.Shift(-r.position)
@@ -69,7 +58,7 @@ func (r *rotor) Step() {
 // the rotor would do.
 func (r *rotor) SetRing(c Char) {
 	r.position = r.position.Shift(-c)
-	r.notch = r.notch.Shift(-c)
+	r.typ.notch = r.typ.notch.Shift(-c)
 }
 
 // SetPosition shifts the rotor mapping in the same way as a physical rotation
@@ -83,5 +72,5 @@ func (r *rotor) Position() Char {
 }
 
 func (r *rotor) Notch() Char {
-	return r.notch
+	return r.typ.notch
 }

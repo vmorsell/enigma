@@ -7,16 +7,12 @@ import (
 )
 
 func TestEncrypt(t *testing.T) {
-	rot := []Rotor{
-		NewRotor(RotorIII, V, L),
-		NewRotor(RotorI, M, B),
-		NewRotor(RotorII, X, A),
-	}
-	ref := NewReflector(ReflectorA)
-	spindle := NewSpindle(rot, ref)
-
-	pb := NewPlugboard(PlugboardSettings{
-		Mappings: []PlugboardMapping{
+	key := DailyKey{
+		Rotors:         []RotorType{RotorIII, RotorI, RotorII},
+		Reflector:      ReflectorA,
+		RingSettings:   []Char{V, M, X},
+		RotorPositions: []Char{L, B, A},
+		PlugConnections: []PlugboardMapping{
 			{A, M},
 			{F, I},
 			{N, V},
@@ -24,34 +20,31 @@ func TestEncrypt(t *testing.T) {
 			{T, U},
 			{W, Z},
 		},
-	})
-	e := New(pb, spindle)
+	}
+	e := NewEnigma(key)
 
-	chars := []Char{S, E, C, R, E, T}
+	in := []Char{S, E, C, R, E, T}
 	want := []Char{L, C, G, O, D, U}
 
-	got := e.Encrypt(chars)
+	got := e.Encrypt(in)
 	require.Equal(t, want, got)
 }
 
 func TestEncryptChar(t *testing.T) {
-	rotors := []Rotor{
-		NewRotor(RotorI, A, C),
-		NewRotor(RotorII, B, B),
-		NewRotor(RotorIII, C, A),
-	}
-	ref := NewReflector(ReflectorA)
-	spindle := NewSpindle(rotors, ref)
-	pb := NewPlugboard(PlugboardSettings{
-		Mappings: []PlugboardMapping{
+	key := DailyKey{
+		Rotors:         []RotorType{RotorI, RotorII, RotorIII},
+		Reflector:      ReflectorA,
+		RingSettings:   []Char{A, B, C},
+		RotorPositions: []Char{C, B, A},
+		PlugConnections: []PlugboardMapping{
 			{A, X},
 		},
-	})
-	e := New(pb, spindle)
+	}
+	e := NewEnigma(key)
 
 	in := A
 	want := J
 
-	res := e.encryptChar(in)
+	res := e.(*enigma).encryptChar(in)
 	require.Equal(t, want, res)
 }

@@ -26,10 +26,8 @@ func TestPlugboardMaps(t *testing.T) {
 }
 
 func TestHandle(t *testing.T) {
-	pb := NewPlugboard(PlugboardSettings{
-		Mappings: []PlugboardMapping{
-			{A, B},
-		},
+	pb := NewPlugboard([]PlugboardMapping{
+		{A, B},
 	})
 
 	tests := []struct {

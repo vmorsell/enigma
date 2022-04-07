@@ -45,7 +45,7 @@ const tpl = `package enigma
 
 var (
 	{{- range .}}
-	Reflector{{.Name}} = reflectorConfig{
+	Reflector{{.Name}} = ReflectorType{
 		mapping: map[Char]Char{
 			{{- range $k, $v := charMap .Mapping}}
 			{{$k}}: {{$v}},
@@ -53,5 +53,11 @@ var (
 		},
 	}
 	{{- end}}
+
+	AllReflectorTypes = []ReflectorType{
+		{{- range .}}
+		Reflector{{.Name}},
+		{{- end}}
+	}
 )
 `

@@ -29,3 +29,20 @@ func CharMap(mapping string) (map[enigma.Char]enigma.Char, error) {
 	}
 	return out, nil
 }
+
+func BackwardCharMap(mapping string) (map[enigma.Char]enigma.Char, error) {
+	fw, err := CharMap(mapping)
+	if err != nil {
+		return nil, fmt.Errorf("char map: %w", err)
+	}
+
+	return reverseMap(fw), nil
+}
+
+func reverseMap(m map[enigma.Char]enigma.Char) map[enigma.Char]enigma.Char {
+	res := make(map[enigma.Char]enigma.Char, len(m))
+	for k, v := range m {
+		res[v] = k
+	}
+	return res
+}

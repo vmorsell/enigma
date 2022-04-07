@@ -2,6 +2,7 @@ package enigma
 
 type Spindle interface {
 	Handle(c Char) Char
+	SetRotorPositions(positions []Char)
 }
 
 type spindle struct {
@@ -9,10 +10,16 @@ type spindle struct {
 	reflector Reflector
 }
 
-func NewSpindle(rotors []Rotor, reflector Reflector) Spindle {
+func NewSpindle(rotors []RotorType, reflector ReflectorType, rings []Char, positions []Char) Spindle {
+	rot := make([]Rotor, 0, len(rotors))
+	for i := 0; i < len(rotors); i++ {
+		rot = append(rot, NewRotor(rotors[i], rings[i], positions[i]))
+	}
+	ref := NewReflector(reflector)
+
 	return &spindle{
-		rotors,
-		reflector,
+		rot,
+		ref,
 	}
 }
 
@@ -33,6 +40,12 @@ func (s *spindle) Handle(c Char) Char {
 	}
 
 	return c
+}
+
+func (s *spindle) SetRotorPositions(positions []Char) {
+	for i, p := range positions {
+		s.rotors[i].SetPosition(p)
+	}
 }
 
 func rotate(rotors []Rotor) {

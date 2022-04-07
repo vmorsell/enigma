@@ -9,7 +9,7 @@ import (
 func TestNewRotor(t *testing.T) {
 	tests := []struct {
 		name         string
-		config       rotorConfig
+		typ          RotorType
 		ring         Char
 		position     Char
 		wantPosition Char
@@ -17,20 +17,20 @@ func TestNewRotor(t *testing.T) {
 	}{
 		{
 			name:         "no ring or position",
-			config:       RotorI,
+			typ:          RotorI,
 			wantPosition: A,
 			wantNotch:    RotorI.notch,
 		},
 		{
 			name:         "with initial position",
-			config:       RotorI,
+			typ:          RotorI,
 			position:     D,
 			wantPosition: D,
 			wantNotch:    RotorI.notch,
 		},
 		{
 			name:         "with changed ring",
-			config:       RotorI,
+			typ:          RotorI,
 			position:     G,
 			ring:         B,
 			wantPosition: F,
@@ -38,7 +38,7 @@ func TestNewRotor(t *testing.T) {
 		},
 		{
 			name:         "with initial position and changed ring",
-			config:       RotorI,
+			typ:          RotorI,
 			position:     D,
 			ring:         D,
 			wantPosition: A,
@@ -48,18 +48,11 @@ func TestNewRotor(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			r := NewRotor(tt.config, tt.ring, tt.position)
+			r := NewRotor(tt.typ, tt.ring, tt.position)
 			require.Equal(t, tt.wantPosition, r.Position(), "position")
 			require.Equal(t, tt.wantNotch, r.Notch(), "notch")
 		})
 	}
-}
-func TestReverseMap(t *testing.T) {
-	in := map[Char]Char{A: B}
-	want := map[Char]Char{B: A}
-
-	res := reverseMap(in)
-	require.Equal(t, want, res)
 }
 
 func TestForwardAndBackward(t *testing.T) {
@@ -107,7 +100,7 @@ func TestForwardAndBackward(t *testing.T) {
 func TestStep(t *testing.T) {
 	pos := A
 	want := B
-	r := NewRotor(rotorConfig{}, A, pos)
+	r := NewRotor(RotorI, A, pos)
 
 	r.Step()
 	require.Equal(t, r.Position(), want)
@@ -122,8 +115,10 @@ func TestSetRing(t *testing.T) {
 	wantNotch := J
 
 	r := rotor{
+		typ: RotorType{
+			notch: notch,
+		},
 		position: pos,
-		notch:    notch,
 	}
 	r.SetRing(ring)
 	require.Equal(t, wantPos, r.Position(), "position")

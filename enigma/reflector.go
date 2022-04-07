@@ -5,21 +5,21 @@ type Reflector interface {
 }
 
 type reflector struct {
-	mappings map[Char]Char
+	typ ReflectorType
 }
 
-type reflectorConfig struct {
+type ReflectorType struct {
 	mapping map[Char]Char
 }
 
-func NewReflector(config reflectorConfig) Reflector {
+func NewReflector(typ ReflectorType) Reflector {
 	return reflector{
-		config.mapping,
+		typ,
 	}
 }
 
 func (r reflector) Reflect(c Char) Char {
-	if v, ok := r.mappings[c]; ok {
+	if v, ok := r.typ.mapping[c]; ok {
 		return v
 	}
 	return c

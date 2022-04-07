@@ -9,17 +9,13 @@ type plugboard struct {
 	backwardMap map[Char]Char
 }
 
-type PlugboardSettings struct {
-	Mappings []PlugboardMapping
-}
-
 type PlugboardMapping struct {
 	From Char
 	To   Char
 }
 
-func NewPlugboard(settings PlugboardSettings) Plugboard {
-	forwardMap, backwardMap := plugboardMaps(settings.Mappings)
+func NewPlugboard(mappings []PlugboardMapping) Plugboard {
+	forwardMap, backwardMap := plugboardMaps(mappings)
 	return plugboard{
 		forwardMap,
 		backwardMap,

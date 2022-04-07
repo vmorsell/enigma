@@ -7,7 +7,7 @@ import (
 )
 
 func TestReflect(t *testing.T) {
-	r := NewReflector(reflectorConfig{
+	r := NewReflector(ReflectorType{
 		mapping: map[Char]Char{
 			A: B,
 		},

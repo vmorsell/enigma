@@ -1,8 +1,8 @@
 package enigma
 
 var (
-	RotorI = rotorConfig{
-		mapping: map[Char]Char{
+	RotorI = RotorType{
+		forwardMapping: map[Char]Char{
 			A: E,
 			B: K,
 			C: M,
@@ -30,10 +30,38 @@ var (
 			Y: C,
 			Z: J,
 		},
+		backwardMapping: map[Char]Char{
+			A: U,
+			B: W,
+			C: Y,
+			D: G,
+			E: A,
+			F: D,
+			G: F,
+			H: P,
+			I: V,
+			J: Z,
+			K: B,
+			L: E,
+			M: C,
+			N: K,
+			O: M,
+			P: T,
+			Q: H,
+			R: X,
+			S: S,
+			T: L,
+			U: R,
+			V: I,
+			W: N,
+			X: Q,
+			Y: O,
+			Z: J,
+		},
 		notch: Q,
 	}
-	RotorII = rotorConfig{
-		mapping: map[Char]Char{
+	RotorII = RotorType{
+		forwardMapping: map[Char]Char{
 			A: A,
 			B: J,
 			C: D,
@@ -61,10 +89,38 @@ var (
 			Y: O,
 			Z: E,
 		},
+		backwardMapping: map[Char]Char{
+			A: A,
+			B: J,
+			C: P,
+			D: C,
+			E: Z,
+			F: W,
+			G: R,
+			H: L,
+			I: F,
+			J: B,
+			K: D,
+			L: K,
+			M: O,
+			N: T,
+			O: Y,
+			P: U,
+			Q: Q,
+			R: G,
+			S: E,
+			T: N,
+			U: H,
+			V: X,
+			W: M,
+			X: I,
+			Y: V,
+			Z: S,
+		},
 		notch: E,
 	}
-	RotorIII = rotorConfig{
-		mapping: map[Char]Char{
+	RotorIII = RotorType{
+		forwardMapping: map[Char]Char{
 			A: B,
 			B: D,
 			C: F,
@@ -92,10 +148,38 @@ var (
 			Y: Q,
 			Z: O,
 		},
+		backwardMapping: map[Char]Char{
+			A: T,
+			B: A,
+			C: G,
+			D: B,
+			E: P,
+			F: C,
+			G: S,
+			H: D,
+			I: Q,
+			J: E,
+			K: U,
+			L: F,
+			M: V,
+			N: N,
+			O: Z,
+			P: H,
+			Q: Y,
+			R: I,
+			S: X,
+			T: J,
+			U: W,
+			V: L,
+			W: R,
+			X: K,
+			Y: O,
+			Z: M,
+		},
 		notch: V,
 	}
-	RotorIV = rotorConfig{
-		mapping: map[Char]Char{
+	RotorIV = RotorType{
+		forwardMapping: map[Char]Char{
 			A: E,
 			B: S,
 			C: O,
@@ -123,10 +207,38 @@ var (
 			Y: W,
 			Z: B,
 		},
+		backwardMapping: map[Char]Char{
+			A: H,
+			B: Z,
+			C: W,
+			D: V,
+			E: A,
+			F: R,
+			G: T,
+			H: N,
+			I: L,
+			J: G,
+			K: U,
+			L: P,
+			M: X,
+			N: Q,
+			O: C,
+			P: E,
+			Q: J,
+			R: M,
+			S: B,
+			T: S,
+			U: K,
+			V: D,
+			W: Y,
+			X: O,
+			Y: I,
+			Z: F,
+		},
 		notch: J,
 	}
-	RotorV = rotorConfig{
-		mapping: map[Char]Char{
+	RotorV = RotorType{
+		forwardMapping: map[Char]Char{
 			A: V,
 			B: Z,
 			C: B,
@@ -154,6 +266,42 @@ var (
 			Y: C,
 			Z: K,
 		},
+		backwardMapping: map[Char]Char{
+			A: Q,
+			B: C,
+			C: Y,
+			D: L,
+			E: X,
+			F: W,
+			G: E,
+			H: N,
+			I: F,
+			J: T,
+			K: Z,
+			L: O,
+			M: S,
+			N: M,
+			O: V,
+			P: J,
+			Q: U,
+			R: D,
+			S: K,
+			T: G,
+			U: I,
+			V: A,
+			W: R,
+			X: P,
+			Y: H,
+			Z: B,
+		},
 		notch: Z,
+	}
+
+	AllRotorTypes = []RotorType{
+		RotorI,
+		RotorII,
+		RotorIII,
+		RotorIV,
+		RotorV,
 	}
 )
