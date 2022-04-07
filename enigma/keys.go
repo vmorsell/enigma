@@ -84,3 +84,18 @@ func randomPlugConnections(n int) []PlugboardMapping {
 	}
 	return mappings
 }
+
+// MessageKey is the complementary initialization vector used to encrypt and
+// decrypt indivual messages.
+type MessageKey struct {
+	Positions []Char
+}
+
+// EncryptDecrypt encrypts or decrypts a message key.
+func (k MessageKey) EncryptDecrypt(e Enigma) MessageKey {
+	res := e.Encrypt(k.Positions)
+
+	return MessageKey{
+		Positions: res,
+	}
+}

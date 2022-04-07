@@ -31,6 +31,7 @@ func (e *enigma) SetDailyKey(key DailyKey) {
 
 // SetMessageKey applies a message key to the Enigma instance.
 func (e *enigma) SetMessageKey(key MessageKey) {
+	e.spindle.SetPositions(key.Positions)
 }
 
 // Encrypt encrypts a slice of chars.
