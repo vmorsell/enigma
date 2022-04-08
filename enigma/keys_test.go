@@ -22,10 +22,10 @@ func TestMessageKeyEncryptDecrypt(t *testing.T) {
 				Positions:     []Char{A, A, A},
 			},
 			in: MessageKey{
-				Positions: []Char{A, A, A},
+				Positions: []Char{A, B, C},
 			},
 			out: MessageKey{
-				Positions: []Char{S, Q, C},
+				Positions: []Char{S, Y, A, X, U, S},
 			},
 		},
 	}
@@ -35,13 +35,13 @@ func TestMessageKeyEncryptDecrypt(t *testing.T) {
 			e := NewEnigma(tt.dk)
 
 			t.Run("encrypt", func(t *testing.T) {
-				res := tt.in.EncryptDecrypt(e)
+				res := tt.in.Encrypt(e)
 				require.Equal(t, tt.out, res)
 			})
 
 			t.Run("decrypt", func(t *testing.T) {
 				e.SetDailyKey(tt.dk)
-				res := tt.out.EncryptDecrypt(e)
+				res := tt.out.Decrypt(e)
 				require.Equal(t, tt.in, res)
 			})
 		})

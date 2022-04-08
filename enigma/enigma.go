@@ -2,7 +2,9 @@ package enigma
 
 // Enigma represents an Enigma instance.
 type Enigma interface {
-	Encrypt(chars []Char) []Char
+	EncryptMessage(payload []Char, dk DailyKey, mk MessageKey) EncryptedMessage
+	DecryptMessage(msg EncryptedMessage, dk DailyKey) []Char
+	EncryptDecrypt(chars []Char) []Char
 	SetDailyKey(key DailyKey)
 	SetMessageKey(key MessageKey)
 }
@@ -34,18 +36,46 @@ func (e *enigma) SetMessageKey(key MessageKey) {
 	e.spindle.SetPositions(key.Positions)
 }
 
-// Encrypt encrypts a slice of chars.
-func (e *enigma) Encrypt(chars []Char) []Char {
+type EncryptedMessage struct {
+	EncryptedMessageKey MessageKey
+	Payload             []Char
+}
+
+func (e *enigma) EncryptMessage(msg []Char, dk DailyKey, mk MessageKey) EncryptedMessage {
+	e.SetDailyKey(dk)
+	emk := mk.Encrypt(e)
+
+	e.SetMessageKey(mk)
+	payload := e.EncryptDecrypt(msg)
+
+	return EncryptedMessage{
+		EncryptedMessageKey: emk,
+		Payload:             payload,
+	}
+}
+
+func (e *enigma) DecryptMessage(in EncryptedMessage, dk DailyKey) []Char {
+	e.SetDailyKey(dk)
+	mk := in.EncryptedMessageKey.Decrypt(e)
+
+	e.SetMessageKey(mk)
+	payload := e.EncryptDecrypt(in.Payload)
+
+	return payload
+}
+
+// EncryptDecrypt encrypts or decrypts a slice of chars.
+func (e *enigma) EncryptDecrypt(chars []Char) []Char {
 	res := make([]Char, 0, len(chars))
 	for _, c := range chars {
-		cc := e.encryptChar(c)
+		cc := e.encryptDecryptChar(c)
 		res = append(res, cc)
 	}
 	return res
 }
 
-// encryptChar encrypts a single char.
-func (e *enigma) encryptChar(c Char) Char {
+// encryptDecryptChar encrypts or decrypts a single char.
+func (e *enigma) encryptDecryptChar(c Char) Char {
 	c = e.plugboard.Handle(c)
 	c = e.spindle.Handle(c)
 	c = e.plugboard.Handle(c)

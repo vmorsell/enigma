@@ -91,11 +91,26 @@ type MessageKey struct {
 	Positions []Char
 }
 
-// EncryptDecrypt encrypts or decrypts a message key.
-func (k MessageKey) EncryptDecrypt(e Enigma) MessageKey {
-	res := e.Encrypt(k.Positions)
+// Encrypt encrypts a message key.
+func (k MessageKey) Encrypt(e Enigma) MessageKey {
+	// Encrypt the start positions two times.
+	payload := append(k.Positions, k.Positions...)
+	res := e.EncryptDecrypt(payload)
 
 	return MessageKey{
 		Positions: res,
+	}
+}
+
+// Decrypt decrypts a message key.
+func (k MessageKey) Decrypt(e Enigma) MessageKey {
+	decrypted := e.EncryptDecrypt(k.Positions)
+
+	// The key should have been decrypted two times.
+	// Only return the first half.
+	decrypted = decrypted[:3]
+
+	return MessageKey{
+		Positions: decrypted,
 	}
 }
