@@ -14,13 +14,11 @@ type Rotor interface {
 // rotor holds the rotor logic.
 type rotor struct {
 	typ      RotorType
-	ring     Char
 	position Char
 }
 
 // RotorType is the model for a specific rotor type.
 type RotorType struct {
-	name            string
 	forwardMapping  map[Char]Char
 	backwardMapping map[Char]Char
 	notch           Char
@@ -29,9 +27,9 @@ type RotorType struct {
 // NewRotor returns a new rotor.
 func NewRotor(typ RotorType, ring Char, position Char) Rotor {
 	r := &rotor{
-		typ: typ,
+		typ:      typ,
+		position: position,
 	}
-	r.SetPosition(position)
 	r.SetRing(ring)
 	return r
 }
