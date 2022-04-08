@@ -1,5 +1,7 @@
-.PHONY: gen
+.PHONY: gen test
 
 gen:
-	go generate ./enigma/generators/...
+	cd enigma && make gen
 
+test:
+	go test ./...
