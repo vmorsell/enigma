@@ -1,5 +1,11 @@
 package enigma
 
+import "fmt"
+
+const (
+	payloadGroupSize = 5
+)
+
 // Enigma represents an Enigma instance.
 type Enigma interface {
 	EncryptMessage(payload []Char, dk DailyKey, mk MessageKey) EncryptedMessage
@@ -39,6 +45,17 @@ func (e *enigma) SetMessageKey(key MessageKey) {
 type EncryptedMessage struct {
 	EncryptedMessageKey MessageKey
 	Payload             []Char
+}
+
+func (msg EncryptedMessage) String() string {
+	key := fmt.Sprintf("%s %s", charsToString(msg.EncryptedMessageKey.Positions[:3]), charsToString(msg.EncryptedMessageKey.Positions[3:]))
+
+	payload := charsToString(msg.Payload)
+	for i := payloadGroupSize; i < len(payload); i += payloadGroupSize + 1 {
+		payload = fmt.Sprintf("%s %s", payload[:i], payload[i:])
+	}
+
+	return fmt.Sprintf("%s %s", key, payload)
 }
 
 func (e *enigma) EncryptMessage(msg []Char, dk DailyKey, mk MessageKey) EncryptedMessage {

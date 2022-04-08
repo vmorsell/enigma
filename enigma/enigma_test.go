@@ -78,6 +78,32 @@ func TestDecryptMessage(t *testing.T) {
 	}
 }
 
+func TestEncryptedMessageString(t *testing.T) {
+	tests := []struct {
+		name string
+		msg  EncryptedMessage
+		out  string
+	}{
+		{
+			name: "ok",
+			msg: EncryptedMessage{
+				EncryptedMessageKey: MessageKey{
+					Positions: []Char{A, B, C, D, E, F},
+				},
+				Payload: []Char{A, A, A, A, A, B, B, B, B, B, C, C, C},
+			},
+			out: "ABC DEF AAAAA BBBBB CCC",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			out := tt.msg.String()
+			require.Equal(t, tt.out, out)
+		})
+	}
+}
+
 func TestEncryptDecrypt(t *testing.T) {
 	key := DailyKey{
 		RotorTypes:    []RotorType{RotorIII, RotorI, RotorII},
