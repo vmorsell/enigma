@@ -142,3 +142,30 @@ func TestSetRing(t *testing.T) {
 	require.Equal(t, wantPos, r.Position(), "position")
 	require.Equal(t, wantNotch, r.Notch(), "notch")
 }
+
+func TestSetPosition(t *testing.T) {
+	tests := []struct {
+		name string
+		init Char
+		want Char
+	}{
+		{
+			name: "ok - from A",
+			init: A,
+			want: C,
+		},
+		{
+			name: "ok - from non-A",
+			init: G,
+			want: H,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r := NewRotor(RotorI, A, tt.init)
+			r.SetPosition(tt.want)
+			require.Equal(t, tt.want, r.Position())
+		})
+	}
+}

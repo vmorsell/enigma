@@ -27,8 +27,8 @@ func NewRotor(typ RotorType, ring Char, position Char) Rotor {
 	r := &rotor{
 		typ: typ,
 	}
-	r.SetRing(ring)
 	r.SetPosition(position)
+	r.SetRing(ring)
 	return r
 }
 
@@ -64,7 +64,7 @@ func (r *rotor) SetRing(c Char) {
 // SetPosition shifts the rotor mapping in the same way as a physical rotation
 // of the rotor would do.
 func (r *rotor) SetPosition(c Char) {
-	r.position = r.position.Shift(c)
+	r.position = c
 }
 
 func (r *rotor) Position() Char {

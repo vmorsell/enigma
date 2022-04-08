@@ -86,6 +86,41 @@ func TestSpindleHandle(t *testing.T) {
 	}
 }
 
+func TestSetPositions(t *testing.T) {
+	tests := []struct {
+		name       string
+		rotorTypes []RotorType
+		positions  []Char
+		want       []Char
+	}{
+		{
+			name:       "ok - from A",
+			rotorTypes: []RotorType{RotorI, RotorI, RotorI},
+			positions:  []Char{A, A, A},
+			want:       []Char{A, B, C},
+		},
+		{
+			name:       "ok - not from A",
+			rotorTypes: []RotorType{RotorI, RotorI, RotorI},
+			positions:  []Char{B, C, D},
+			want:       []Char{E, A, O},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := NewSpindle(tt.rotorTypes, ReflectorA, tt.positions, tt.positions)
+			s.SetPositions(tt.want)
+
+			var got []Char
+			for _, r := range s.(*spindle).rotors {
+				got = append(got, r.Position())
+			}
+			require.Equal(t, tt.want, got)
+		})
+	}
+}
+
 func TestRotate(t *testing.T) {
 	tests := []struct {
 		name      string
