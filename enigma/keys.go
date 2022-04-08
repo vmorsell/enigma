@@ -23,8 +23,8 @@ func NewDailyKey(rotorTypes []RotorType, reflectorType ReflectorType, rings []Ch
 	}
 }
 
-// Random daily key returns a randomized daily key.
-func RandomDailyKey() DailyKey {
+// NewRandomDailyKey returns a randomized daily key.
+func NewRandomDailyKey() DailyKey {
 	rot := randomRotors(3)
 	ref := randomReflector()
 	rng := randomChars(3)
@@ -89,6 +89,19 @@ func randomPlugConnections(n int) []PlugboardMapping {
 // decrypt indivual messages.
 type MessageKey struct {
 	Positions []Char
+}
+
+// NewMessageKey returns a new message key with the given positions.
+func NewMessageKey(positions []Char) MessageKey {
+	return MessageKey{
+		positions,
+	}
+}
+
+// NewRandomMessageKey returns a randomized message key.
+func NewRandomMessageKey() MessageKey {
+	positions := randomChars(3)
+	return NewMessageKey(positions)
 }
 
 // Encrypt encrypts a message key.
