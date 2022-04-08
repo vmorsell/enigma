@@ -6,6 +6,7 @@ import (
 	"github.com/vmorsell/enigma/enigma"
 )
 
+// CharMap creates a mapping from an ordered A-Z string to the provided mapping.
 func CharMap(mapping string) (map[enigma.Char]enigma.Char, error) {
 	alphas := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -30,6 +31,8 @@ func CharMap(mapping string) (map[enigma.Char]enigma.Char, error) {
 	return out, nil
 }
 
+// BackwarddCharMap creates a reverse mapping from each letter in the provided
+// mapping string, to the corresponding letter in an ordered A-Z string.
 func BackwardCharMap(mapping string) (map[enigma.Char]enigma.Char, error) {
 	fw, err := CharMap(mapping)
 	if err != nil {
@@ -39,6 +42,7 @@ func BackwardCharMap(mapping string) (map[enigma.Char]enigma.Char, error) {
 	return reverseMap(fw), nil
 }
 
+// reverseMap reverses the provided Char map k->v to v->k.
 func reverseMap(m map[enigma.Char]enigma.Char) map[enigma.Char]enigma.Char {
 	res := make(map[enigma.Char]enigma.Char, len(m))
 	for k, v := range m {

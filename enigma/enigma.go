@@ -6,7 +6,7 @@ const (
 	payloadGroupSize = 5
 )
 
-// Enigma represents an Enigma instance.
+// Enigma holds the interface for an Enigma instance.
 type Enigma interface {
 	EncryptMessage(payload []Char, dk DailyKey, mk MessageKey) EncryptedMessage
 	DecryptMessage(msg EncryptedMessage, dk DailyKey) []Char
@@ -15,7 +15,7 @@ type Enigma interface {
 	SetMessageKey(key MessageKey)
 }
 
-// enigma implements the Enigma logic.
+// enigma holds the Enigma logic.
 type enigma struct {
 	plugboard Plugboard
 	spindle   Spindle
@@ -42,11 +42,14 @@ func (e *enigma) SetMessageKey(key MessageKey) {
 	e.spindle.SetPositions(key.Positions)
 }
 
+// EncryptedMessage represents the resulting output of an Enigma encryption.
 type EncryptedMessage struct {
 	EncryptedMessageKey MessageKey
 	Payload             []Char
 }
 
+// String returns a string representation of an encrypted message in the
+// format as it should be transmitted.
 func (msg EncryptedMessage) String() string {
 	key := fmt.Sprintf("%s %s", CharsToString(msg.EncryptedMessageKey.Positions[:3]), CharsToString(msg.EncryptedMessageKey.Positions[3:]))
 
@@ -58,6 +61,7 @@ func (msg EncryptedMessage) String() string {
 	return fmt.Sprintf("%s %s", key, payload)
 }
 
+// EncryptMessage encrypts a message with the provided daily key and message key.
 func (e *enigma) EncryptMessage(msg []Char, dk DailyKey, mk MessageKey) EncryptedMessage {
 	e.SetDailyKey(dk)
 	emk := mk.Encrypt(e)
@@ -71,6 +75,7 @@ func (e *enigma) EncryptMessage(msg []Char, dk DailyKey, mk MessageKey) Encrypte
 	}
 }
 
+// DecryptMessage decrypts a message with the provided daily key.
 func (e *enigma) DecryptMessage(in EncryptedMessage, dk DailyKey) []Char {
 	e.SetDailyKey(dk)
 	mk := in.EncryptedMessageKey.Decrypt(e)

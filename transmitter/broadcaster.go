@@ -5,6 +5,7 @@ import (
 	"net"
 )
 
+// broadcaster holds the logic for the broadcaster.
 type broadcaster struct {
 	network       string
 	broadcastAddr string
@@ -13,6 +14,7 @@ type broadcaster struct {
 	dst           *net.UDPAddr
 }
 
+// NewBroadcaster returns a new broadcaster.
 func NewBroadcaster(network, broadcastAddr string, port int) *broadcaster {
 	return &broadcaster{
 		network:       network,
@@ -21,6 +23,7 @@ func NewBroadcaster(network, broadcastAddr string, port int) *broadcaster {
 	}
 }
 
+// Connect initializes the broadcaster connection.
 func (b *broadcaster) Connect() error {
 	conn, err := net.ListenPacket(b.network, ":0")
 	if err != nil {
@@ -37,6 +40,7 @@ func (b *broadcaster) Connect() error {
 	return nil
 }
 
+// Broadcast transmist a single message.
 func (b *broadcaster) Broadcast(msg string) error {
 	if b.conn == nil {
 		return fmt.Errorf("no connection available")
@@ -52,6 +56,7 @@ func (b *broadcaster) Broadcast(msg string) error {
 	return nil
 }
 
+// Close terminates the broadcaster connection.
 func (b *broadcaster) Close() error {
 	if b.conn == nil {
 		return fmt.Errorf("no connection to close")

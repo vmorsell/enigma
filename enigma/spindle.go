@@ -1,15 +1,18 @@
 package enigma
 
+// Spindle holds the interface for a spindle.
 type Spindle interface {
 	Handle(c Char) Char
 	SetPositions(positions []Char)
 }
 
+// spindle holds the spindle logic.
 type spindle struct {
 	rotors    []Rotor
 	reflector Reflector
 }
 
+// NewSpindle returns a new spindle.
 func NewSpindle(rotorTypes []RotorType, reflectorType ReflectorType, rings []Char, positions []Char) Spindle {
 	rot := make([]Rotor, 0, len(rotorTypes))
 	for i := 0; i < len(rotorTypes); i++ {
@@ -23,6 +26,7 @@ func NewSpindle(rotorTypes []RotorType, reflectorType ReflectorType, rings []Cha
 	}
 }
 
+// Handle substitutes a char in a forward-backward pass through the spindle.
 func (s *spindle) Handle(c Char) Char {
 	rotate(s.rotors)
 
@@ -42,12 +46,15 @@ func (s *spindle) Handle(c Char) Char {
 	return c
 }
 
+// SetPositions updates the positions of the rotors in the spindle.
 func (s *spindle) SetPositions(positions []Char) {
 	for i, p := range positions {
 		s.rotors[i].SetPosition(p)
 	}
 }
 
+// rotate performs one step shift of the appropriate rotors. This is done every
+// time a key is pressed on the Enigma machine.
 func rotate(rotors []Rotor) {
 	for i := len(rotors) - 1; i >= 0; i-- {
 		// First rotor is always incremented.
