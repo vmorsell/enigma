@@ -101,3 +101,10 @@ func TestStringToChars(t *testing.T) {
 		})
 	}
 }
+
+func TestCharsToString(t *testing.T) {
+	in := []Char{A, B, C}
+	want := "ABC"
+	got := CharsToString(in)
+	require.Equal(t, want, got)
+}

@@ -73,7 +73,7 @@ nextRune:
 	return out, nil
 }
 
-func charsToString(chars []Char) string {
+func CharsToString(chars []Char) string {
 	var out string
 	for _, c := range chars {
 		out += c.String()

@@ -48,9 +48,9 @@ type EncryptedMessage struct {
 }
 
 func (msg EncryptedMessage) String() string {
-	key := fmt.Sprintf("%s %s", charsToString(msg.EncryptedMessageKey.Positions[:3]), charsToString(msg.EncryptedMessageKey.Positions[3:]))
+	key := fmt.Sprintf("%s %s", CharsToString(msg.EncryptedMessageKey.Positions[:3]), CharsToString(msg.EncryptedMessageKey.Positions[3:]))
 
-	payload := charsToString(msg.Payload)
+	payload := CharsToString(msg.Payload)
 	for i := payloadGroupSize; i < len(payload); i += payloadGroupSize + 1 {
 		payload = fmt.Sprintf("%s %s", payload[:i], payload[i:])
 	}
