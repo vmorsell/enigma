@@ -11,7 +11,6 @@ type receiver struct {
 	network    string
 	port       int
 	bufferSize int
-	conn       net.PacketConn
 }
 
 // NewReceiver returns a new receiver.
