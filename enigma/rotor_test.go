@@ -98,12 +98,30 @@ func TestForwardAndBackward(t *testing.T) {
 }
 
 func TestStep(t *testing.T) {
-	pos := A
-	want := B
-	r := NewRotor(RotorI, A, pos)
+	tests := []struct {
+		name string
+		init Char
+		want Char
+	}{
+		{
+			name: "ok - from A",
+			init: A,
+			want: B,
+		},
+		{
+			name: "ok - from non-A",
+			init: G,
+			want: H,
+		},
+	}
 
-	r.Step()
-	require.Equal(t, r.Position(), want)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r := NewRotor(RotorI, A, tt.init)
+			r.Step()
+			require.Equal(t, tt.want, r.Position())
+		})
+	}
 }
 
 func TestSetRing(t *testing.T) {
