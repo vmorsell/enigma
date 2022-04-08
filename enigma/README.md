@@ -1,6 +1,8 @@
 # enigma
 
-Actual enigma implementation.
+[![Go Reference](https://pkg.go.dev/badge/github.com/vmorsell/enigma/enigma.svg)](https://pkg.go.dev/github.com/vmorsell/enigma/enigma)
+
+Enigma implementation in Go.
 
 ## Example usage
 
