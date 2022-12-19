@@ -2,8 +2,8 @@
 
 Service transmitting random encrypted messages over UDP.
 
-## Get started
+## Usage
 
 ```
-$ make run
+go run .
 ```

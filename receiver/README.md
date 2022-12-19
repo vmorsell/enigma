@@ -2,8 +2,8 @@
 
 Service listening to encrypted messages over UDP.
 
-## Get started
+## Usage
 
 ```
-$ make run
+go run .
 ```
