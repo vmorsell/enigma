@@ -11,18 +11,15 @@ func TestPlugboardMaps(t *testing.T) {
 		{A, S},
 		{Z, T},
 	}
-	wantFw := map[Char]Char{
+	want := map[Char]Char{
 		A: S,
 		Z: T,
-	}
-	wantBw := map[Char]Char{
 		S: A,
 		T: Z,
 	}
 
-	fw, bw := plugboardMaps(mapping)
-	require.EqualValues(t, wantFw, fw, "forward")
-	require.EqualValues(t, wantBw, bw, "backward")
+	mappings := substitutionMap(mapping)
+	require.EqualValues(t, want, mappings, "forward")
 }
 
 func TestHandle(t *testing.T) {

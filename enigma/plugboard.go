@@ -7,12 +7,10 @@ type Plugboard interface {
 
 // plugboard holds the plugboard logic.
 type plugboard struct {
-	forwardMap  map[Char]Char
-	backwardMap map[Char]Char
+	mappings map[Char]Char
 }
 
-// PlugboardMapping represents one connection between two chars
-// in the plugboard.
+// PlugboardMapping represents a mapping between two characters on the plugboard.
 type PlugboardMapping struct {
 	From Char
 	To   Char
@@ -20,30 +18,25 @@ type PlugboardMapping struct {
 
 // NewPlugboard returns a new plugboard instance.
 func NewPlugboard(mappings []PlugboardMapping) Plugboard {
-	forwardMap, backwardMap := plugboardMaps(mappings)
+	m := substitutionMap(mappings)
 	return plugboard{
-		forwardMap,
-		backwardMap,
+		m,
 	}
 }
 
-// plugboardMaps returns the forward and backward mapping for the plugboard.
-func plugboardMaps(mapping []PlugboardMapping) (map[Char]Char, map[Char]Char) {
-	forwardMap := make(map[Char]Char, len(mapping))
-	backwardMap := make(map[Char]Char, len(mapping))
-	for _, m := range mapping {
-		forwardMap[m.From] = m.To
-		backwardMap[m.To] = m.From
+// substitutionMap compiles the forward and backward mapping for the plugboard.
+func substitutionMap(mappings []PlugboardMapping) map[Char]Char {
+	res := make(map[Char]Char, len(mappings)*2)
+	for _, m := range mappings {
+		res[m.From] = m.To
+		res[m.To] = m.From
 	}
-	return forwardMap, backwardMap
+	return res
 }
 
 // Handle substitutes a char based on the plugboard configuration.
 func (p plugboard) Handle(c Char) Char {
-	if v, ok := p.forwardMap[c]; ok {
-		return v
-	}
-	if v, ok := p.backwardMap[c]; ok {
+	if v, ok := p.mappings[c]; ok {
 		return v
 	}
 	return c
