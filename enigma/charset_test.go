@@ -67,7 +67,7 @@ func TestShift(t *testing.T) {
 func TestString(t *testing.T) {
 	alphaOffset := 65
 
-	for i := 0; i < len(charSet); i++ {
+	for i := 0; i < len(charset); i++ {
 		want := fmt.Sprintf("%c", i+alphaOffset)
 		got := Char(i).String()
 		require.Equal(t, want, got)

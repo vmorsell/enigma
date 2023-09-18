@@ -33,7 +33,7 @@ const (
 	Z
 )
 
-var charSet = [...]string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
+var charset = [...]string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
 
 // Int returns the char as an int.
 func (c Char) Int() int {
@@ -49,14 +49,14 @@ func (c Char) Step() Char {
 func (c Char) Shift(char Char) Char {
 	c += char
 	for c < 0 {
-		c += Char(len(charSet))
+		c += Char(len(charset))
 	}
-	return c % Char(len(charSet))
+	return c % Char(len(charset))
 }
 
 // String returns the char as at string representation.
 func (c Char) String() string {
-	return charSet[c]
+	return charset[c]
 }
 
 var errNotInCharset = func(s string) error { return fmt.Errorf("%s is not in charset", s) }
@@ -67,7 +67,7 @@ func StringToChars(s string) ([]Char, error) {
 nextRune:
 	for _, r := range s {
 		c := fmt.Sprintf("%c", r)
-		for i, v := range charSet {
+		for i, v := range charset {
 			if v == c {
 				out = append(out, Char(i))
 				continue nextRune

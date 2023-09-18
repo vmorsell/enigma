@@ -54,7 +54,7 @@ func randomReflector() ReflectorType {
 
 // randomChars returns n randomized, non-unique chars.
 func randomChars(n int) []Char {
-	max := len(charSet)
+	max := len(charset)
 	chars := make([]Char, 0, n)
 	for len(chars) < n {
 		r := Char(rand.Intn(max))
@@ -66,8 +66,8 @@ func randomChars(n int) []Char {
 // randomPlugConnections returns n random plug connections. All connections
 // are to different chars.
 func randomPlugConnections(n int) []PlugboardMapping {
-	all := make([]int, 0, len(charSet))
-	for i := 0; i < len(charSet); i++ {
+	all := make([]int, 0, len(charset))
+	for i := 0; i < len(charset); i++ {
 		all = append(all, i)
 	}
 	rand.Shuffle(len(all), func(i, j int) {
