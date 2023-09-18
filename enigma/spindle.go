@@ -36,7 +36,7 @@ func (s *spindle) Handle(c Char) Char {
 	}
 
 	// Reflect.
-	c = s.reflector.Reflect(c)
+	c = s.reflector.Handle(c)
 
 	// Backward-pass through rotors.
 	for i := len(s.rotors) - 1; i >= 0; i-- {
