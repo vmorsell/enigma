@@ -32,7 +32,7 @@ func TestReflect(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			res := r.Reflect(tt.c)
+			res := r.Handle(tt.c)
 			require.Equal(t, tt.res, res)
 		})
 	}

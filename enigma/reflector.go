@@ -2,7 +2,7 @@ package enigma
 
 // Reflector holds the interface for a reflector.
 type Reflector interface {
-	Reflect(c Char) Char
+	Handle(c Char) Char
 }
 
 // reflector holds the reflector logic.
@@ -23,7 +23,7 @@ func NewReflector(typ ReflectorType) Reflector {
 }
 
 // Reflect performs the substitution of the char.
-func (r reflector) Reflect(c Char) Char {
+func (r reflector) Handle(c Char) Char {
 	if v, ok := r.typ.mapping[c]; ok {
 		return v
 	}
